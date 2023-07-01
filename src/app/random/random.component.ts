@@ -18,7 +18,7 @@ export class RandomComponent implements OnInit{
   constructor(private footballService: FootballService) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
+    // this.isLoading = true;
     // this.footballService.getPremierLeagueTeams().pipe(takeUntil(this.destroy$)).subscribe({
     //   next: (data) => {
     //     console.log(data.response)
