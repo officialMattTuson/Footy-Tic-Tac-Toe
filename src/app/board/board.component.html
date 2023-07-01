@@ -1,24 +1,28 @@
-<h1>Current Player: {{ player }}</h1>
-
 <div class="board-container">
-  <button 
-    mat-raised-button 
-    color="accent" 
-    id="new-game-button"
-    (click)="newGame()"
-  >
-    Start new Game
-  </button>
-
-  <h2 *ngIf="winner">Player {{ winner }} won the game!</h2>
+  <div class="board-prompts">
+    <button
+      mat-raised-button
+      color="accent"
+      id="new-game-button"
+      (click)="newGame()"
+    >
+      Start new Game
+    </button>
+  
+    <h1 id="message" *ngIf="winner;else currentPlayer">Winner: Player {{ winner }}</h1>
+    <ng-template #currentPlayer>
+      <h1 id="message">Current Player: {{ player }}</h1>
+    </ng-template> 
+  </div>
 
   <main *ngIf="squares">
-    <app-square 
-      *ngFor="let val of squares; let i = index"
-      [value]="val"
-      (click)="makeMove(i)"
-    >
-    </app-square>
+    <ng-container *ngFor="let val of squares; let i = index">
+      <ng-container *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock">
+        <app-square disabled></app-square>
+      </ng-container>
+        <ng-template #gameBlock>
+          <app-square [value]="val" (click)="makeMove(i)"></app-square>
+        </ng-template>
+    </ng-container>
   </main>
 </div>
-
