@@ -30,6 +30,9 @@ export class SquareComponent {
   ]
   
   selectCondition() {
+    if (this.index === 0) {
+      return;
+    }
     console.log('I am not part of Tic Tac Toe', this.index);
     console.log(this.teams)
   }

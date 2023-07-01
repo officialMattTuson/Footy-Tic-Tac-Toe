@@ -3,7 +3,7 @@
   (click)="selectCondition()"
   id="condition-square"
 >
-<mat-select [(ngModel)]="selectedOption">
+<mat-select *ngIf="index !== 0" [(ngModel)]="selectedOption">
   <mat-option *ngFor="let option of options" [value]="option.id">
     {{ option.name }}
   </mat-option>
