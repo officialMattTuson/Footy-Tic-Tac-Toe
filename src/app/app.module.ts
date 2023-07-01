@@ -7,8 +7,10 @@ import {HttpClientModule} from '@angular/common/http';
 //  Components
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
+import {BoardComponent} from './board/board.component';
 import {RandomComponent} from './random/random.component';
 import {BuildComponent} from './build/build.component';
+import {SquareComponent} from './square/square.component';
 
 //  Material Modules
 import {MatButtonModule} from '@angular/material/button';
@@ -20,8 +22,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { BoardComponent } from './board/board.component';
-import { SquareComponent } from './square/square.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, RandomComponent, BuildComponent, BoardComponent, SquareComponent],
