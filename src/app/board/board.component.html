@@ -18,7 +18,13 @@
   <main *ngIf="squares">
     <ng-container *ngFor="let val of squares; let i = index">
       <ng-container *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock">
-        <app-square disabled></app-square>
+        <app-square 
+          disabled 
+          [isPlayingSquare]="false"
+          [teams]="teams"
+          [index]="i"
+        >
+        </app-square>
       </ng-container>
         <ng-template #gameBlock>
           <app-square [value]="val" (click)="makeMove(i)"></app-square>

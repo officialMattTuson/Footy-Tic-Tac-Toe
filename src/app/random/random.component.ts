@@ -21,7 +21,6 @@ export class RandomComponent implements OnInit{
     // this.isLoading = true;
     // this.footballService.getPremierLeagueTeams().pipe(takeUntil(this.destroy$)).subscribe({
     //   next: (data) => {
-    //     console.log(data.response)
     //     this.teams = data.response;
     //   },  
     //   error: (error) => console.error(error),

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Team} from '../models';
 
 @Component({
   selector: 'app-board',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
+  @Input() teams: Team[] = [];
   squares!: any[];
   xIsNext!: boolean;
   winner: string = '';
