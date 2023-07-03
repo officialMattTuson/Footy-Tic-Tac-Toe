@@ -27,3 +27,22 @@ export interface Country {
   flag: string;
   name: string;
 }
+
+export const topFootballingNations = [
+  'Argentina',
+  'France',
+  'Brazil',
+  'Germany',
+  'Spain',
+  'Uruguay',
+  'Italy',
+  'England',
+  'Switzerland',
+  'Belgium',
+  'Croatia',
+  'Netherlands',
+  'Portugal',
+  'Wales',
+  'Norway',
+
+]

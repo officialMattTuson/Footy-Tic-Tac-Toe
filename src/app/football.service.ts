@@ -21,7 +21,15 @@ export class FootballService {
     return this.http.get<any>(`${this.apiUrl}/teams?league=39&season=2023`, {'headers': this.headers} );
   }
 
+  getProfessionalTeamsByCountry(country: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/teams?country=${country}`, {'headers': this.headers} );
+  }
+
   getCountries(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/teams/countries`, {'headers': this.headers} );
+  }
+
+  getTeamStatsById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/teams/seasons?team=${id}`, {'headers': this.headers} );
   }
 }
