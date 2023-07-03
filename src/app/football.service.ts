@@ -17,8 +17,12 @@ export class FootballService {
   };
   constructor(private http: HttpClient) { }
 
-  getPremierLeagueTeams(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/teams?league=39&season=2023`, {'headers': this.headers} );
+  getTopDivisionTeams(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/teams?league=${id}&season=2022`, {'headers': this.headers} );
+  }
+
+  getTopDivisions(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/leagues?season=2022`, {'headers': this.headers} );
   }
 
   getProfessionalTeamsByCountry(country: string): Observable<any> {

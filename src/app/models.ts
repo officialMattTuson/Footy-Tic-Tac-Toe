@@ -28,6 +28,13 @@ export interface Country {
   name: string;
 }
 
+export interface League {
+  id: number;
+  logo: string;
+  type: string;
+  name: string;
+}
+
 export const topFootballingNations = [
   'Argentina',
   'France',
@@ -46,3 +53,5 @@ export const topFootballingNations = [
   'Norway',
 
 ]
+
+export const topFootballLeagueIds = [39,40,140,61,78,135,94]

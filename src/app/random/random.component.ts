@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FootballService} from '../football.service';
-import {Subject, take, takeUntil} from 'rxjs';
-import {Country, Team, topFootballingNations} from '../models';
+import {Subject, filter, take, takeUntil} from 'rxjs';
+import {Country, League, Team, topFootballLeagueIds, topFootballingNations} from '../models';
 
 @Component({
   selector: 'app-random',
@@ -12,6 +12,7 @@ export class RandomComponent implements OnInit{
 
   teams: Team[] = [];
   countries: Country[] = [];
+  leagues: League[] = [];
   isLoading: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -19,17 +20,15 @@ export class RandomComponent implements OnInit{
   constructor(private footballService: FootballService) {}
 
   ngOnInit(): void {
-    // this.getPremierLeagueTeams();
-    this.getCountries();
+    // this.getTopDivisions();
+    // this.getCountries();
     // this.getTeamById();
   }
 
-  getPremierLeagueTeams() {
+  getTopDivisions() {
     this.isLoading = true;
-    this.footballService.getPremierLeagueTeams().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {
-        this.teams = data.response;
-      },  
+    this.footballService.getTopDivisions().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => this.filterLeagues(data.response),  
       error: (error) => console.error(error),
       complete: () => this.isLoading = false
     });
@@ -57,4 +56,24 @@ export class RandomComponent implements OnInit{
     this.countries = filteredCountryObjects;
     console.log(this.countries)
   }
+
+  filterLeagues(leagues: any[]) {
+    if (!leagues) {
+      return;
+    }
+    const filteredLeagues = leagues.filter(league => topFootballLeagueIds.includes(league.league.id))
+    filteredLeagues.forEach(league => this.getTopDivisionTeams(league))
+
+  }
+
+  getTopDivisionTeams(league: any) {
+    this.footballService.getTopDivisionTeams(league.league.id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {
+        this.teams = data.response;
+        console.log(this.teams);
+      },  
+      error: (error) => console.error(error),
+    })
+  }
+
 }
