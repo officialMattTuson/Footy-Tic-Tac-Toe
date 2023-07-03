@@ -1,0 +1,19 @@
+// :host ::ng-deep .mat-mdc-select-arrow {
+//     display: none;
+//   }
+  
+  .dropdown-wrapper {
+    cursor: pointer;
+    width: 100%;
+  }
+  
+//   .custom-select-panel {
+//     width: unset !important;
+//   }
+
+  .flex-dialog-content {
+    display: flex;
+    gap: 5rem;
+    justify-content: center;
+    width: 100%;
+  }

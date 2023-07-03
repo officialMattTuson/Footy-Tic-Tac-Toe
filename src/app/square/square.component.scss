@@ -10,23 +10,3 @@ button {
 .red-square {
   background-color: #ffcdd2;
 }
-
-:host ::ng-deep .mat-mdc-select-arrow {
-  display: none;
-}
-
-:host ::ng-deep .mat-mdc-select-value {
-  display: none;
-}
-
-.dropdown-wrapper {
-  cursor: pointer;
-}
-
-.custom-select-panel {
-  width: unset !important;
-}
-
-.custom-select .mat-select-value {
-  visibility: hidden;
-}

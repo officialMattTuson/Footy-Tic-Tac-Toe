@@ -1,8 +1,32 @@
-<h2 mat-dialog-title>Confirmation</h2>
-<mat-dialog-content>
-  <p>{{ data.message }}</p>
+<h2 mat-dialog-title>Select A Club team or Nationality</h2>
+<mat-dialog-content class="flex-dialog-content">
+  <div class="dropdown-wrapper" (click)="toggleDropdown()">
+    <mat-select class="custom-select" [(ngModel)]="selectedTeam" [panelClass]="dropdownOpen ? 'custom-select-panel' : ''">
+      <mat-option *ngFor="let option of teams[0]" [value]="option">
+        {{ option.team.name }}   
+      </mat-option>
+    </mat-select>
+    <ng-container *ngIf="selectedTeam">
+      <img [src]="selectedTeam.team.logo" alt="Selected Team Logo">
+    </ng-container>
+  </div>
+
+  <div class="dropdown-wrapper">
+    <mat-select class="custom-select" [(ngModel)]="selectedCountry">
+      <mat-option *ngFor="let option of countries" [value]="option">
+        {{ option.name }}   
+      </mat-option>
+    </mat-select>
+    <ng-container *ngIf="selectedCountry">
+      <img
+        width="175px"
+        [src]="selectedCountry.flag" 
+        alt="Selected Country Flag">
+    </ng-container>
+  </div>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button color="warn" (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSuccess()">Success</button>
+  <button mat-button color="primary" (click)="onSuccess()">Select</button>
 </mat-dialog-actions>

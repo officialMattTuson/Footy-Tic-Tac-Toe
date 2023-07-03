@@ -36,10 +36,7 @@ ngOnInit(): void {
 
   getCountries() {
     this.footballService.getCountries().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {
-        this.countries = data.response;
-        this.filterCountries(this.countries);
-      },
+      next: (data) => this.filterCountries(data.response),
       error: (error) => console.error(error),
     });
   }
@@ -61,7 +58,8 @@ ngOnInit(): void {
       return;
     }
     const filteredLeagues = leagues.filter(league => topFootballLeagueIds.includes(league.league.id))
-    filteredLeagues.forEach(league => this.getTopDivisionTeams(league));
+    // filteredLeagues.forEach(league => this.getTopDivisionTeams(league));
+    this.getTopDivisionTeams(filteredLeagues[0])
   }
 
   getTopDivisionTeams(league: LeagueParent) {

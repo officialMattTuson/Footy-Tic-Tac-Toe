@@ -15,15 +15,10 @@ export class SquareComponent {
   @Input() countries?: Country[];
   @Input() index?: number;
 
-  selectedOption?: Team;
-
-  dropdownOpen = false;
+  selectedCountry?: Country;
+  selectedTeam?: Team;
 
   constructor(public dialog: MatDialog) {}
-
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
   
   selectCondition() {
     if (this.index === 0) {
@@ -31,7 +26,7 @@ export class SquareComponent {
     }
     if (!this.isPlayingSquare) {
       const dialogRef = this.dialog.open(SelectorComponent, {
-        width: '20rem',
+        width: '50rem',
         data: {
           teams: this.teams,
           countries: this.countries
@@ -41,7 +36,11 @@ export class SquareComponent {
         if (!result) {
           return;
         }
-        console.log(result)
+        if (result?.flag) {
+          this.selectedCountry = result; 
+        } else {
+          this.selectedTeam = result;
+        }
       })
     }
   }
