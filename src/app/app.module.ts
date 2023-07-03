@@ -24,6 +24,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
+import {SelectorComponent} from './selector/selector.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +37,7 @@ import {MatSelectModule} from '@angular/material/select';
     BuildComponent,
     BoardComponent,
     SquareComponent,
+    SelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +55,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSidenavModule,
+    MatDialogModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

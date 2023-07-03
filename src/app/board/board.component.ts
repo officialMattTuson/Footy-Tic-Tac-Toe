@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Team} from '../models';
+import {Country, Team} from '../models';
 
 @Component({
   selector: 'app-board',
@@ -9,6 +9,7 @@ import {Team} from '../models';
 export class BoardComponent implements OnInit {
 
   @Input() teams: Team[] = [];
+  @Input() countries: Country[] = [];
   squares!: any[];
   xIsNext!: boolean;
   winner: string = '';

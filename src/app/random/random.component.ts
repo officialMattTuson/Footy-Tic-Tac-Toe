@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FootballService} from '../football.service';
 import {Subject, filter, take, takeUntil} from 'rxjs';
-import {Country, League, Team, topFootballLeagueIds, topFootballingNations} from '../models';
+import {Country, League, LeagueParent, Team, topFootballLeagueIds, topFootballingNations} from '../models';
 
 @Component({
   selector: 'app-random',
@@ -19,7 +19,7 @@ export class RandomComponent implements OnInit{
 
   constructor(private footballService: FootballService) {}
 
-  ngOnInit(): void {
+ngOnInit(): void {
     // this.getTopDivisions();
     // this.getCountries();
     // this.getTeamById();
@@ -54,22 +54,20 @@ export class RandomComponent implements OnInit{
   filterCountries(countries: Country[]) {
     const filteredCountryObjects = countries.filter(obj => topFootballingNations.includes(obj.name));
     this.countries = filteredCountryObjects;
-    console.log(this.countries)
   }
 
-  filterLeagues(leagues: any[]) {
+  filterLeagues(leagues: LeagueParent[]) {
     if (!leagues) {
       return;
     }
     const filteredLeagues = leagues.filter(league => topFootballLeagueIds.includes(league.league.id))
-    filteredLeagues.forEach(league => this.getTopDivisionTeams(league))
-
+    filteredLeagues.forEach(league => this.getTopDivisionTeams(league));
   }
 
-  getTopDivisionTeams(league: any) {
+  getTopDivisionTeams(league: LeagueParent) {
     this.footballService.getTopDivisionTeams(league.league.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
-        this.teams = data.response;
+        this.teams.push(data.response);
         console.log(this.teams);
       },  
       error: (error) => console.error(error),

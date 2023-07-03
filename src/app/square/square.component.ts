@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Team} from '../models';
+import {Country, Team} from '../models';
+import {MatDialog} from '@angular/material/dialog';
+import { SelectorComponent } from '../selector/selector.component';
 
 @Component({
   selector: 'app-square',
@@ -10,26 +12,14 @@ export class SquareComponent {
   @Input() value!: 'X' | 'O';
   @Input() isPlayingSquare?: boolean = true;
   @Input() teams?: Team[];
+  @Input() countries?: Country[];
   @Input() index?: number;
 
   selectedOption?: Team;
 
-  options = [
-    {
-      id: 1,
-      name: 'Manchester City'
-    },
-    {
-      id: 2,
-      name: 'Manchester United'
-    },
-    {
-      id: 3,
-      name: 'Liverpool'
-    },
-  ]
-
   dropdownOpen = false;
+
+  constructor(public dialog: MatDialog) {}
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
@@ -39,7 +29,20 @@ export class SquareComponent {
     if (this.index === 0) {
       return;
     }
-    console.log('I am not part of Tic Tac Toe', this.index);
-    console.log(this.teams)
+    if (!this.isPlayingSquare) {
+      const dialogRef = this.dialog.open(SelectorComponent, {
+        width: '20rem',
+        data: {
+          teams: this.teams,
+          countries: this.countries
+        }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        console.log(result)
+      })
+    }
   }
 }

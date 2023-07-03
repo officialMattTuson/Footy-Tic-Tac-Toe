@@ -28,6 +28,12 @@ export interface Country {
   name: string;
 }
 
+export interface LeagueParent {
+  league: League;
+  country: Country;
+  seasons: any[];
+}
+
 export interface League {
   id: number;
   logo: string;
