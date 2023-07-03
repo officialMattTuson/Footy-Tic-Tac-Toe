@@ -21,3 +21,9 @@ export interface HomeGround {
   image: string;
   surface: string;
 }
+
+export interface Country {
+  code: string;
+  flag: string;
+  name: string;
+}

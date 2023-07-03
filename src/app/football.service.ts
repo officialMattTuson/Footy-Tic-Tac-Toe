@@ -20,4 +20,8 @@ export class FootballService {
   getPremierLeagueTeams(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/teams?league=39&season=2023`, {'headers': this.headers} );
   }
+
+  getCountries(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/teams/countries`, {'headers': this.headers} );
+  }
 }
