@@ -3,11 +3,18 @@
   (click)="selectCondition()"
   id="condition-square"
 >
-<mat-select *ngIf="index !== 0" [(ngModel)]="selectedOption">
-  <mat-option *ngFor="let option of options" [value]="option.id">
-    {{ option.name }}
-  </mat-option>
-</mat-select>
+
+  <div class="dropdown-wrapper" (click)="toggleDropdown()">
+    <mat-select class="custom-select" [(ngModel)]="selectedOption" [panelClass]="dropdownOpen ? 'custom-select-panel' : ''">
+      <mat-option *ngFor="let option of teams" [value]="option">
+        {{ option.team.name }}   
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <ng-container *ngIf="selectedOption">
+    <img [src]="selectedOption.team.logo" alt="Selected Option Image">
+  </ng-container>
 
 </button>
 <ng-template #playButtons>

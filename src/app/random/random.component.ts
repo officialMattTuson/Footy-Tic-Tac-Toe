@@ -18,13 +18,13 @@ export class RandomComponent implements OnInit{
   constructor(private footballService: FootballService) {}
 
   ngOnInit(): void {
-    // this.isLoading = true;
-    // this.footballService.getPremierLeagueTeams().pipe(takeUntil(this.destroy$)).subscribe({
-    //   next: (data) => {
-    //     this.teams = data.response;
-    //   },  
-    //   error: (error) => console.error(error),
-    //   complete: () => this.isLoading = false
-    // })
+    this.isLoading = true;
+    this.footballService.getPremierLeagueTeams().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (data) => {
+        this.teams = data.response;
+      },  
+      error: (error) => console.error(error),
+      complete: () => this.isLoading = false
+    })
   }
 }

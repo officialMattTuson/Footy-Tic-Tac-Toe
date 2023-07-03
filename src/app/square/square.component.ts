@@ -12,7 +12,7 @@ export class SquareComponent {
   @Input() teams?: Team[];
   @Input() index?: number;
 
-  selectedOption?: string;
+  selectedOption?: Team;
 
   options = [
     {
@@ -28,6 +28,12 @@ export class SquareComponent {
       name: 'Liverpool'
     },
   ]
+
+  dropdownOpen = false;
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
   
   selectCondition() {
     if (this.index === 0) {
