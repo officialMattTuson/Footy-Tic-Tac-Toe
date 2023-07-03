@@ -2,18 +2,54 @@
 //     display: none;
 //   }
   
-  .dropdown-wrapper {
-    cursor: pointer;
-    width: 100%;
+  .dropdown {
+    &-wrapper {
+      cursor: pointer;
+      width: 100%;
+      flex: 1;
+    }
+    &-hidden {
+      visibility: hidden;
+    }
   }
-  
-//   .custom-select-panel {
-//     width: unset !important;
-//   }
+
+  .image-container {
+    text-align: center;
+    height: 150px;
+    padding-block-start: 2rem;
+  }
 
   .flex-dialog-content {
     display: flex;
     gap: 5rem;
     justify-content: center;
     width: 100%;
+  }
+
+  :host ::ng-deep .mat-mdc-select-value {
+    text-align: center;
+  }
+
+  #target-button {
+    padding: 1.75rem;
+  }
+
+  .selector-buttons {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    flex: 1;
+  }
+
+  .mat-mdc-dialog-actions {
+    margin: 1rem;
+  }
+
+  ::ng-deep .mat-mdc-select-arrow {
+    color: red;
+    font-size: 20px;
+    margin-right: 5px;
   }
