@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Country, Team} from '../models';
 
 @Component({
@@ -10,7 +10,8 @@ export class BoardComponent implements OnInit {
 
   @Input() teams: Team[] = [];
   @Input() countries: Country[] = [];
-  squares!: any[];
+  squares: any[] = [];
+  squaresWithConditions: any[] = [];
   xIsNext!: boolean;
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
@@ -24,9 +25,48 @@ export class BoardComponent implements OnInit {
   makeMove(idx: number) {
     if (!this.squares[idx]) {
       this.squares.splice(idx, 1, this.player);
+      this.squaresWithConditions.splice(idx, 1, this.player);
       this.xIsNext = !this.xIsNext;
+      console.log(this.squaresWithConditions)
     }
-
+    switch (idx) {
+      case 5:
+        console.log(this.squaresWithConditions[1]?.name)
+        console.log(this.squaresWithConditions[4]?.name)
+        break;
+      case 6:
+        console.log(this.squaresWithConditions[2]?.name)
+        console.log(this.squaresWithConditions[4]?.name)
+        break;
+      case 7:
+        console.log(this.squaresWithConditions[3]?.name)
+        console.log(this.squaresWithConditions[4]?.name)
+        break;
+      case 9:
+        console.log(this.squaresWithConditions[1]?.name)
+        console.log(this.squaresWithConditions[8]?.name)
+        break;
+      case 10:
+        console.log(this.squaresWithConditions[2]?.name)
+        console.log(this.squaresWithConditions[8]?.name)
+        break;
+      case 11:
+        console.log(this.squaresWithConditions[3]?.name)
+        console.log(this.squaresWithConditions[8]?.name)
+        break;
+      case 13:
+        console.log(this.squaresWithConditions[1]?.name)
+        console.log(this.squaresWithConditions[12]?.name)
+        break;
+      case 14:
+        console.log(this.squaresWithConditions[2]?.name)
+        console.log(this.squaresWithConditions[12]?.name)
+        break;
+      case 15:
+        console.log(this.squaresWithConditions[3]?.name)
+        console.log(this.squaresWithConditions[12]?.name)
+        break;
+    }
     this.winner = this.calculateWinner();
   }
 
@@ -54,8 +94,17 @@ export class BoardComponent implements OnInit {
     return null;
   }
 
+  handleSelectedCondition(event: any, index: number) {
+    const selectedOption = {
+      name: event?.team ? event.team.name : event.name,
+      image: event?.team ? event.team.logo : event.flag
+    };
+    this.squaresWithConditions[index] = selectedOption;
+  }
+  
   newGame() {
     this.squares = Array(16).fill(null);
+    this.squaresWithConditions = Array(16).fill(null);
     this.xIsNext = false;
   }
 

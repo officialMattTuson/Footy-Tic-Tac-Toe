@@ -1,3 +1,5 @@
+<div class="dialog-container">
+
 <mat-dialog-content class="flex-dialog-content">
 
   <div class="selector-buttons">
@@ -26,6 +28,7 @@
       class="dropdown-wrapper"
       (click)="openDropdown()"
     >
+      <h2 class="dropdown-label">Club Team</h2>
       <mat-select 
         class="custom-select" 
         [(ngModel)]="selectedTeam" 
@@ -46,6 +49,7 @@
         [ngClass]="{'dropdown-hidden': showButtons}"
         (click)="openDropdown()"
       >
+        <h2 class="dropdown-label">Country</h2>
         <mat-select 
           class="custom-select" 
           [(ngModel)]="selectedCountry"
@@ -72,3 +76,5 @@
   <button mat-stroked-button color="warn" (click)="onCancel()">Cancel</button>
   <button mat-raised-button color="primary" (click)="onSuccess()">Select</button>
 </mat-dialog-actions>
+
+</div>

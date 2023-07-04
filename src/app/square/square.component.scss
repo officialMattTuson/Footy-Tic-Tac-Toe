@@ -10,3 +10,12 @@ button {
 .red-square {
   background-color: #ffcdd2;
 }
+
+// .dialog-container {
+//   background-color: lightgray;
+//   width: '50rem'
+// }
+
+::ng-deep .mat-dialog-container {
+  background-color: lightblue;
+}

@@ -19,11 +19,12 @@
     <ng-container *ngFor="let val of squares; let i = index">
       <ng-container *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock">
         <app-square 
-          disabled 
           [isPlayingSquare]="false"
           [teams]="teams"
+          [value]="val"
           [countries]="countries"
           [index]="i"
+          (userSelectedCondition)="(handleSelectedCondition($event, i))"
         >
         </app-square>
       </ng-container>

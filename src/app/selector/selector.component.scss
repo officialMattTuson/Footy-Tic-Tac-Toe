@@ -1,55 +1,71 @@
-// :host ::ng-deep .mat-mdc-select-arrow {
-//     display: none;
-//   }
+.dialog-container {
+  background-color: lightgray;
+}
   
-  .dropdown {
-    &-wrapper {
-      cursor: pointer;
-      width: 100%;
-      flex: 1;
-    }
-    &-hidden {
-      visibility: hidden;
-    }
-  }
-
-  .image-container {
-    text-align: center;
-    height: 150px;
-    padding-block-start: 2rem;
-  }
-
-  .flex-dialog-content {
-    display: flex;
-    gap: 5rem;
-    justify-content: center;
-    width: 100%;
-  }
-
-  :host ::ng-deep .mat-mdc-select-value {
-    text-align: center;
-  }
-
-  #target-button {
-    padding: 1.75rem;
-  }
-
-  .selector-buttons {
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
+.dropdown {
+  &-wrapper {
+    cursor: pointer;
     width: 100%;
     flex: 1;
   }
-
-  .mat-mdc-dialog-actions {
-    margin: 1rem;
+  &-hidden {
+    visibility: hidden;
   }
+}
 
-  ::ng-deep .mat-mdc-select-arrow {
+.image-container {
+  text-align: center;
+  height: 150px;
+  padding-block-start: 2rem;
+}
+
+.flex-dialog-content {
+  display: flex;
+  gap: 5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+:host ::ng-deep .mat-mdc-select-value {
+  text-align: center;
+}
+
+#target-button {
+  padding: 1.75rem;
+}
+
+.selector-buttons {
+  height: 25    0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  flex: 1;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 1.5rem;
+}
+
+::ng-deep {
+  .mat-mdc-select-arrow {
     color: red;
     font-size: 20px;
     margin-right: 5px;
   }
+  .mdc-menu-surface.mat-mdc-select-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: lightgreen;
+  }
+
+  .cdk-overlay-pane:not(.mat-mdc-select-panel-above) .mdc-menu-surface.mat-mdc-select-panel {
+    margin: 1.5rem;
+  }
+}
+
+.dropdown-label {
+  text-align: center;
+}

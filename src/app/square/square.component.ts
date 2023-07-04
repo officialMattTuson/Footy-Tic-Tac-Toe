@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Country, Team} from '../models';
 import {MatDialog} from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
@@ -9,17 +9,18 @@ import { SelectorComponent } from '../selector/selector.component';
   styleUrls: ['./square.component.scss']
 })
 export class SquareComponent {
-  @Input() value!: 'X' | 'O';
+  @Input() value!: any;
   @Input() isPlayingSquare?: boolean = true;
   @Input() teams?: Team[];
   @Input() countries?: Country[];
   @Input() index?: number;
+  @Output() userSelectedCondition = new EventEmitter<any>();
 
-  selectedCountry?: Country;
-  selectedTeam?: Team;
+  selectedCountry: Country | null = null;
+  selectedTeam: Team | null = null;
 
   constructor(public dialog: MatDialog) {}
-  
+
   selectCondition() {
     if (this.index === 0) {
       return;
@@ -27,6 +28,7 @@ export class SquareComponent {
     if (!this.isPlayingSquare) {
       const dialogRef = this.dialog.open(SelectorComponent, {
         width: '50rem',
+        panelClass: 'dialog-container',
         data: {
           teams: this.teams,
           countries: this.countries
@@ -38,9 +40,12 @@ export class SquareComponent {
         }
         if (result?.flag) {
           this.selectedCountry = result; 
+          this.selectedTeam = null;
         } else {
           this.selectedTeam = result;
+          this.selectedCountry = null;
         }
+        this.userSelectedCondition.emit(result);
       })
     }
   }

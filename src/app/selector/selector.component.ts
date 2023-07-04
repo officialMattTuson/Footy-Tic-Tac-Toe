@@ -12,8 +12,8 @@ export class SelectorComponent implements OnInit {
 
   selectedTeam?: Team | null;
   selectedCountry?: Country | null;
-  teamSelected?: boolean;
-  showButtons: boolean = true;
+  teamSelected?: boolean = true;
+  showButtons: boolean = false;
 
   @ViewChild('dropdown') dropdown!: MatSelect;
 
