@@ -41,6 +41,25 @@ export interface League {
   name: string;
 }
 
+export interface PlayerInformation {
+  player: PlayerBio;
+  statistics: [];
+}
+
+export interface PlayerBio {
+  id: number;
+  age: number;
+  birth: {};
+  firstName: string;
+  height: string;
+  injured: boolean;
+  lastName: string;
+  name: string;
+  nationality: string;
+  photo: string;
+  weight: string;
+}
+
 export const topFootballingNations = [
   'Argentina',
   'France',

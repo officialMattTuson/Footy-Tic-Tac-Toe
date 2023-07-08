@@ -36,4 +36,12 @@ export class FootballService {
   getTeamStatsById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/teams/seasons?team=${id}`, {'headers': this.headers} );
   }
+
+  searchPlayer(query: string) {
+    return this.http.get<any>(`${this.apiUrl}/players?league=39&search=${query}`, {'headers': this.headers} );
+  }
+
+  getPlayersListOfTeams(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/transfers?player=${id}`, {'headers': this.headers} );
+  }
 }

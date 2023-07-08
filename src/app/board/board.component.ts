@@ -27,7 +27,6 @@ export class BoardComponent implements OnInit {
       this.squares.splice(idx, 1, this.player);
       this.squaresWithConditions.splice(idx, 1, this.player);
       this.xIsNext = !this.xIsNext;
-      console.log(this.squaresWithConditions)
     }
     switch (idx) {
       case 5:
@@ -103,8 +102,8 @@ export class BoardComponent implements OnInit {
   }
   
   newGame() {
-    this.squares = Array(16).fill(null);
-    this.squaresWithConditions = Array(16).fill(null);
+    this.squares = Array(16).fill('');
+    this.squaresWithConditions = Array(16).fill('');
     this.xIsNext = false;
   }
 

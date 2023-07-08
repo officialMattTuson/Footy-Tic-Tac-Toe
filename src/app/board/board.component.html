@@ -21,7 +21,7 @@
         <app-square 
           [isPlayingSquare]="false"
           [teams]="teams"
-          [value]="val"
+          [value]="squaresWithConditions[i]"
           [countries]="countries"
           [index]="i"
           (userSelectedCondition)="(handleSelectedCondition($event, i))"

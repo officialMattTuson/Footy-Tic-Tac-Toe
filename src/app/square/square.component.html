@@ -3,24 +3,29 @@
       (click)="selectCondition()"
       id="condition-square"
     >
-    <ng-container *ngIf="selectedCountry">
-      <img
-        width="175px" 
-        [src]="selectedCountry.flag" 
-        alt="Selected Country Flag"
-      >
-    </ng-container>
-    <ng-container *ngIf="selectedTeam">
-      <img 
-        width="175px" 
-        [src]="selectedTeam.team.logo" 
-        alt="Selected Team Logo"
-      >
-    </ng-container>
+      <ng-container *ngIf="selectedCountry">
+        <img
+          width="175px" 
+          [src]="selectedCountry.flag" 
+          alt="Selected Country Flag"
+        >
+      </ng-container>
+      <ng-container *ngIf="selectedTeam">
+        <img 
+          width="175px" 
+          [src]="selectedTeam.team.logo" 
+          alt="Selected Team Logo"
+        >
+      </ng-container>
     </button>
 
 <ng-template #playButtons>
-  <button *ngIf="!value">{{ value }}</button>
+  <button 
+    *ngIf="!value"
+    (click)="searchPlayer()"
+  >
+    {{ value }}
+  </button>
   <button
     [ngClass]="{ 'blue-square': value === 'X', 'red-square': value === 'O' }"
     *ngIf="value"

@@ -1,7 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import {Country, Team} from '../models';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit} from '@angular/core';
+import {Country, PlayerInformation, Team} from '../models';
 import {MatDialog} from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
+import { FootballService } from '../football.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-square',
@@ -19,7 +21,25 @@ export class SquareComponent {
   selectedCountry: Country | null = null;
   selectedTeam: Team | null = null;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    private footballService: FootballService,
+    public dialog: MatDialog
+  ) {}
+
+  searchPlayer() {
+    this.footballService.searchPlayer('Haaland').pipe(take(1)).subscribe({
+      next: (data) => this.getTeamsByPlayer(data.response),
+      error: (error) => console.error(error)
+    })
+  }
+
+  getTeamsByPlayer(player: PlayerInformation[]) {
+    const searchedPlayer = player[0].player;
+    this.footballService.getPlayersListOfTeams(searchedPlayer.id).pipe(take(1)).subscribe({
+      next: (result) => console.log(result),
+      error: (error) => console.error(error)
+    })
+  }
 
   selectCondition() {
     if (this.index === 0) {
@@ -45,7 +65,7 @@ export class SquareComponent {
           this.selectedTeam = result;
           this.selectedCountry = null;
         }
-        this.userSelectedCondition.emit(result);
+        // this.userSelectedCondition.emit(result);
       })
     }
   }
