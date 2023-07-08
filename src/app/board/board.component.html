@@ -15,10 +15,10 @@
     </ng-template> 
   </div>
 
-  <main *ngIf="squares">
+  <main>
     <ng-container *ngFor="let val of squares; let i = index">
-      <ng-container *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock">
         <app-square 
+          *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock"
           [isPlayingSquare]="false"
           [teams]="teams"
           [value]="squaresWithConditions[i]"
@@ -27,9 +27,8 @@
           (userSelectedCondition)="(handleSelectedCondition($event, i))"
         >
         </app-square>
-      </ng-container>
         <ng-template #gameBlock>
-          <app-square [value]="val" (click)="makeMove(i)"></app-square>
+          <app-square [index]="i" (click)="makeMove(i)"></app-square>
         </ng-template>
     </ng-container>
   </main>

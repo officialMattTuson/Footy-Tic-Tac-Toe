@@ -1,35 +1,46 @@
-    <button
-      *ngIf="!isPlayingSquare; else playButtons"
-      (click)="selectCondition()"
-      id="condition-square"
-    >
-      <ng-container *ngIf="selectedCountry">
-        <img
-          width="175px" 
-          [src]="selectedCountry.flag" 
-          alt="Selected Country Flag"
-        >
-      </ng-container>
-      <ng-container *ngIf="selectedTeam">
-        <img 
-          width="175px" 
-          [src]="selectedTeam.team.logo" 
-          alt="Selected Team Logo"
-        >
-      </ng-container>
-    </button>
+<button
+  *ngIf="!isPlayingSquare; else playButtons"
+  (click)="selectCondition()"
+  id="condition-square"
+>
+  <ng-container *ngIf="selectedCountry">
+    <img
+      width="175px"
+      [src]="selectedCountry.flag"
+      alt="Selected Country Flag"
+    />
+  </ng-container>
+  <ng-container *ngIf="selectedTeam">
+    <img
+      width="175px"
+      [src]="selectedTeam.team.logo"
+      alt="Selected Team Logo"
+    />
+  </ng-container>
+</button>
 
 <ng-template #playButtons>
-  <button 
-    *ngIf="!value"
-    (click)="searchPlayer()"
-  >
-    {{ value }}
-  </button>
-  <button
-    [ngClass]="{ 'blue-square': value === 'X', 'red-square': value === 'O' }"
-    *ngIf="value"
-  >
-    {{ value }}
-  </button>
+  <ng-container *ngIf="!isSearchBoxVisible; else searchBox">
+    <button 
+      class=search-button-{{index}} 
+      (click)="!searchedPlayer && toggleSearchBox()"
+    >
+    <ng-container *ngIf="searchedPlayer">
+      <img
+        width="175px"
+        [src]="searchedPlayer.photo"
+        alt="Selected Team Logo"
+      />
+    </ng-container>
+    </button>
+  </ng-container>
+
+  <ng-template #searchBox>
+    <input
+      class="search-input-{{index}}"
+      type="text"
+      [(ngModel)]="searchQuery"
+      (keydown.enter)="searchPlayer()"
+    />
+  </ng-template>
 </ng-template>

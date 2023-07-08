@@ -60,6 +60,15 @@ export interface PlayerBio {
   weight: string;
 }
 
+export interface Transfer {
+  date: string;
+  teams: {
+    in: TeamInformation;
+    out: TeamInformation;
+  };
+  type: string;
+}
+
 export const topFootballingNations = [
   'Argentina',
   'France',
@@ -76,7 +85,6 @@ export const topFootballingNations = [
   'Portugal',
   'Wales',
   'Norway',
+];
 
-]
-
-export const topFootballLeagueIds = [39,40,140,61,78,135,94]
+export const topFootballLeagueIds = [39, 40, 140, 61, 78, 135, 94];
