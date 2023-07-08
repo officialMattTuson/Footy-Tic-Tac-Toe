@@ -37,8 +37,8 @@ export class FootballService {
     return this.http.get<any>(`${this.apiUrl}/teams/seasons?team=${id}`, {'headers': this.headers} );
   }
 
-  searchPlayer(query: string) {
-    return this.http.get<any>(`${this.apiUrl}/players?league=39&search=${query}`, {'headers': this.headers} );
+  searchPlayer(query: string, teamId: number) {
+    return this.http.get<any>(`${this.apiUrl}/players?team=${teamId}&search=${query}`, {'headers': this.headers} );
   }
 
   getPlayersListOfTeams(id: number) {

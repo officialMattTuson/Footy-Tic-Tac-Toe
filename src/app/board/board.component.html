@@ -28,7 +28,11 @@
         >
         </app-square>
         <ng-template #gameBlock>
-          <app-square [index]="i" (click)="makeMove(i)"></app-square>
+          <app-square 
+            [index]="i" 
+            (click)="makeMove(i)"
+          >
+          </app-square>
         </ng-template>
     </ng-container>
   </main>

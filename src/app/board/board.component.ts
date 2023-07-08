@@ -16,6 +16,7 @@ export class BoardComponent implements OnInit {
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
 
+
   constructor() {}
 
   ngOnInit(): void {
@@ -23,45 +24,44 @@ export class BoardComponent implements OnInit {
   }
 
   makeMove(idx: number) {
-      // this.squares.splice(idx, 1, this.player);
       this.squaresWithConditions.splice(idx, 1, this.player);
       this.xIsNext = !this.xIsNext;
     switch (idx) {
       case 5:
-        console.log(this.squaresWithConditions[1]?.name)
-        console.log(this.squaresWithConditions[4]?.name)
+        console.log(this.squaresWithConditions[1])
+        console.log(this.squaresWithConditions[4])
         break;
       case 6:
-        console.log(this.squaresWithConditions[2]?.name)
-        console.log(this.squaresWithConditions[4]?.name)
+        console.log(this.squaresWithConditions[2])
+        console.log(this.squaresWithConditions[4])
         break;
       case 7:
-        console.log(this.squaresWithConditions[3]?.name)
-        console.log(this.squaresWithConditions[4]?.name)
+        console.log(this.squaresWithConditions[3])
+        console.log(this.squaresWithConditions[4])
         break;
       case 9:
-        console.log(this.squaresWithConditions[1]?.name)
-        console.log(this.squaresWithConditions[8]?.name)
+        console.log(this.squaresWithConditions[1])
+        console.log(this.squaresWithConditions[8])
         break;
       case 10:
-        console.log(this.squaresWithConditions[2]?.name)
-        console.log(this.squaresWithConditions[8]?.name)
+        console.log(this.squaresWithConditions[2])
+        console.log(this.squaresWithConditions[8])
         break;
       case 11:
-        console.log(this.squaresWithConditions[3]?.name)
-        console.log(this.squaresWithConditions[8]?.name)
+        console.log(this.squaresWithConditions[3])
+        console.log(this.squaresWithConditions[8])
         break;
       case 13:
-        console.log(this.squaresWithConditions[1]?.name)
-        console.log(this.squaresWithConditions[12]?.name)
+        console.log(this.squaresWithConditions[1])
+        console.log(this.squaresWithConditions[12])
         break;
       case 14:
-        console.log(this.squaresWithConditions[2]?.name)
-        console.log(this.squaresWithConditions[12]?.name)
+        console.log(this.squaresWithConditions[2])
+        console.log(this.squaresWithConditions[12])
         break;
       case 15:
-        console.log(this.squaresWithConditions[3]?.name)
-        console.log(this.squaresWithConditions[12]?.name)
+        console.log(this.squaresWithConditions[3])
+        console.log(this.squaresWithConditions[12])
         break;
     }
     this.winner = this.calculateWinner();
@@ -92,10 +92,7 @@ export class BoardComponent implements OnInit {
   }
 
   handleSelectedCondition(event: any, index: number) {
-    const selectedOption = {
-      name: event?.team ? event.team.name : event.name,
-      image: event?.team ? event.team.logo : event.flag
-    };
+    const selectedOption = event
     this.squaresWithConditions[index] = selectedOption;
   }
   

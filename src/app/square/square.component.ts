@@ -47,20 +47,9 @@ export class SquareComponent {
     }
   }
 
-  // searchForPlayer(): void {
-  //   if (this.searchQuery.trim() === '') {
-  //     this.filteredPlayers = [...this.allPlayers];
-  //   } else {
-  //     this.filteredPlayers = this.allPlayers.filter(player =>
-  //       player.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-  //     );
-  //   }
-  // }
-
   searchPlayer() {
-    this.footballService.searchPlayer(this.searchQuery).pipe(take(1)).subscribe({
+    this.footballService.searchPlayer(this.searchQuery, 50).pipe(take(1)).subscribe({
       next: (data) => {
-        console.log(data.response[0].player)
         this.getListOfTransfers(data.response);
         this.searchedPlayer = data.response[0].player;
         this.playerNationality = this.searchedPlayer.nationality;
@@ -119,7 +108,7 @@ export class SquareComponent {
           this.selectedTeam = result;
           this.selectedCountry = null;
         }
-        // this.userSelectedCondition.emit(result);
+        this.userSelectedCondition.emit(result?.team ? result.team.name : result.name);
       })
     }
   }
