@@ -37,7 +37,7 @@
 
   <ng-template #searchBox>
     <input
-      class="search-input-{{index}}"
+      [class]="'search-input-' + index"
       type="text"
       [(ngModel)]="searchQuery"
       (keydown.enter)="searchPlayer()"

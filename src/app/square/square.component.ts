@@ -15,6 +15,7 @@ export class SquareComponent {
   @Input() isPlayingSquare?: boolean = true;
   @Input() teams?: Team[];
   @Input() countries?: Country[];
+  @Input() conditions!: object;
   @Input() index?: number;
   @Output() userSelectedCondition = new EventEmitter<any>();
 
@@ -108,13 +109,12 @@ export class SquareComponent {
           this.selectedTeam = result;
           this.selectedCountry = null;
         }
-        this.userSelectedCondition.emit(result?.team ? result.team.name : result.name);
+        this.userSelectedCondition.emit(result?.team ? result.team : result);
       })
     }
   }
 
   toggleSearchBox(): void {
-    console.log(this.index)
     this.isSearchBoxVisible = !this.isSearchBoxVisible;
   }
 }

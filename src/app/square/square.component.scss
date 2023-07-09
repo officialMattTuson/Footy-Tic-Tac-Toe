@@ -11,11 +11,15 @@ button {
   background-color: #ffcdd2;
 }
 
-// .dialog-container {
-//   background-color: lightgray;
-//   width: '50rem'
-// }
-
 ::ng-deep .mat-dialog-container {
   background-color: lightblue;
+}
+
+input {
+  margin-block-start: 9.5rem;
+  width: 100%;
+  padding-block: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }

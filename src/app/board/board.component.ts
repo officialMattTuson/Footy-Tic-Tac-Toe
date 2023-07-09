@@ -10,6 +10,7 @@ export class BoardComponent implements OnInit {
 
   @Input() teams: Team[] = [];
   @Input() countries: Country[] = [];
+  conditionsToMatch! : object;
   squares: any[] = [];
   squaresWithConditions: any[] = [];
   xIsNext!: boolean;
@@ -28,40 +29,58 @@ export class BoardComponent implements OnInit {
       this.xIsNext = !this.xIsNext;
     switch (idx) {
       case 5:
-        console.log(this.squaresWithConditions[1])
-        console.log(this.squaresWithConditions[4])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[1],
+          'condition2': this.squaresWithConditions[4]
+        }
         break;
       case 6:
-        console.log(this.squaresWithConditions[2])
-        console.log(this.squaresWithConditions[4])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[2],
+          'condition2': this.squaresWithConditions[4]
+        }
         break;
       case 7:
-        console.log(this.squaresWithConditions[3])
-        console.log(this.squaresWithConditions[4])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[3],
+          'condition2': this.squaresWithConditions[4]
+        }
         break;
       case 9:
-        console.log(this.squaresWithConditions[1])
-        console.log(this.squaresWithConditions[8])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[1],
+          'condition2': this.squaresWithConditions[8]
+        }
         break;
       case 10:
-        console.log(this.squaresWithConditions[2])
-        console.log(this.squaresWithConditions[8])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[2],
+          'condition2': this.squaresWithConditions[8]
+        }
         break;
       case 11:
-        console.log(this.squaresWithConditions[3])
-        console.log(this.squaresWithConditions[8])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[3],
+          'condition2': this.squaresWithConditions[8]
+        }
         break;
       case 13:
-        console.log(this.squaresWithConditions[1])
-        console.log(this.squaresWithConditions[12])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[1],
+          'condition2': this.squaresWithConditions[12]
+        }
         break;
       case 14:
-        console.log(this.squaresWithConditions[2])
-        console.log(this.squaresWithConditions[12])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[2],
+          'condition2': this.squaresWithConditions[12]
+        }
         break;
       case 15:
-        console.log(this.squaresWithConditions[3])
-        console.log(this.squaresWithConditions[12])
+        this.conditionsToMatch = {
+          'condition1': this.squaresWithConditions[3],
+          'condition2': this.squaresWithConditions[12]
+        }
         break;
     }
     this.winner = this.calculateWinner();

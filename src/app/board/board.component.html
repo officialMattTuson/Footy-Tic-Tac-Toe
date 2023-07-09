@@ -25,11 +25,12 @@
           [countries]="countries"
           [index]="i"
           (userSelectedCondition)="(handleSelectedCondition($event, i))"
-        >
+          >
         </app-square>
         <ng-template #gameBlock>
           <app-square 
             [index]="i" 
+            [conditions]="conditionsToMatch"
             (click)="makeMove(i)"
           >
           </app-square>
