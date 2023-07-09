@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, HostListener} from '@angular/core';
-import {Country, PlayerBio, PlayerInformation, Team, Transfer} from '../models';
+import {Condition, Country, PlayerBio, PlayerInformation, Team, Transfer} from '../models';
 import {MatDialog} from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
 import { FootballService } from '../football.service';
@@ -15,7 +15,7 @@ export class SquareComponent {
   @Input() isPlayingSquare?: boolean = true;
   @Input() teams?: Team[];
   @Input() countries?: Country[];
-  @Input() conditions!: object;
+  @Input() conditions!: any[];
   @Input() index?: number;
   @Output() userSelectedCondition = new EventEmitter<any>();
 
@@ -41,6 +41,7 @@ export class SquareComponent {
     
     if (isSearchFilterClicked) {
       this.isSearchBoxVisible = true;
+      console.log(this.conditions)
       return;
     }
     if (!isClickedInsideButton) {
@@ -78,11 +79,44 @@ export class SquareComponent {
       TeamsSet.add(transfer.teams.out.name);
     });
     this.transferClubs = Array.from(TeamsSet);
-    this.matchPlayerToConditions(this.playerNationality, this.transferClubs)
+    this.matchPlayerToConditions(this.playerNationality, this.transferClubs, this.conditions)
   }
 
-  matchPlayerToConditions(playerNationality: string, transferClubs: string[]) {
+  matchPlayerToConditions(playerNationality: string, transferClubs: string[], conditions: any[]) {
 
+    let matchingNation = false;
+    let matchingClub = false;
+    let clubConditions: any[] = [];
+    let countryCondition: any[] = [];
+
+    if (!conditions) {
+      return;
+    }
+    conditions.forEach((condition, index) => {
+      if ('team' in condition[0]) {
+        clubConditions.push(condition[0].team);
+      } else {
+        countryCondition = condition;
+      }
+    });
+    
+
+    const correctClubConditions = clubConditions.filter(club => transferClubs.some(transferClub => transferClub === club?.name));
+
+
+    
+    console.log('correctClubConditions', correctClubConditions)
+
+    if (countryCondition && countryCondition[0].name === playerNationality || !countryCondition) {
+      matchingNation = true;
+    }
+
+    if (clubConditions.length === correctClubConditions.length) {
+      matchingClub = true;
+    }
+    console.log(matchingClub);
+    console.log(matchingNation);
+    (matchingClub && matchingNation) ? console.log('Well Done') : console.log('Nope');
   }
 
   selectCondition() {
@@ -109,7 +143,7 @@ export class SquareComponent {
           this.selectedTeam = result;
           this.selectedCountry = null;
         }
-        this.userSelectedCondition.emit(result?.team ? result.team : result);
+        this.userSelectedCondition.emit(result);
       })
     }
   }

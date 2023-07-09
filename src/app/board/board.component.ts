@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Country, Team} from '../models';
+import {Condition, Country, Team} from '../models';
 
 @Component({
   selector: 'app-board',
@@ -10,7 +10,7 @@ export class BoardComponent implements OnInit {
 
   @Input() teams: Team[] = [];
   @Input() countries: Country[] = [];
-  conditionsToMatch! : object;
+  conditionsToMatch! : any[];
   squares: any[] = [];
   squaresWithConditions: any[] = [];
   xIsNext!: boolean;
@@ -29,58 +29,58 @@ export class BoardComponent implements OnInit {
       this.xIsNext = !this.xIsNext;
     switch (idx) {
       case 5:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[1],
-          'condition2': this.squaresWithConditions[4]
-        }
+        this.conditionsToMatch = [
+          [this.squaresWithConditions[1]],
+          [this.squaresWithConditions[4]]
+        ]
         break;
       case 6:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[2],
-          'condition2': this.squaresWithConditions[4]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[2]},
+          {'condition2': this.squaresWithConditions[4]}
+        ]
         break;
       case 7:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[3],
-          'condition2': this.squaresWithConditions[4]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[3]},
+          {'condition2': this.squaresWithConditions[4]}
+        ]
         break;
       case 9:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[1],
-          'condition2': this.squaresWithConditions[8]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[1]},
+          {'condition2': this.squaresWithConditions[8]}
+        ]
         break;
       case 10:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[2],
-          'condition2': this.squaresWithConditions[8]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[2]},
+          {'condition2': this.squaresWithConditions[8]}
+        ]
         break;
       case 11:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[3],
-          'condition2': this.squaresWithConditions[8]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[3]},
+          {'condition2': this.squaresWithConditions[8]}
+        ]
         break;
       case 13:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[1],
-          'condition2': this.squaresWithConditions[12]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[1]},
+          {'condition2': this.squaresWithConditions[12]}
+        ]
         break;
       case 14:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[2],
-          'condition2': this.squaresWithConditions[12]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[2]},
+          {'condition2': this.squaresWithConditions[12]}
+        ]
         break;
       case 15:
-        this.conditionsToMatch = {
-          'condition1': this.squaresWithConditions[3],
-          'condition2': this.squaresWithConditions[12]
-        }
+        this.conditionsToMatch = [
+          {'condition1': this.squaresWithConditions[3]},
+          {'condition2': this.squaresWithConditions[12]}
+        ]
         break;
     }
     this.winner = this.calculateWinner();

@@ -69,6 +69,11 @@ export interface Transfer {
   type: string;
 }
 
+export interface Condition {
+  condition1: any;
+  condition2: any;
+}
+
 export const topFootballingNations = [
   'Argentina',
   'France',
