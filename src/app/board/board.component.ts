@@ -36,50 +36,50 @@ export class BoardComponent implements OnInit {
         break;
       case 6:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[2]},
-          {'condition2': this.squaresWithConditions[4]}
+          [this.squaresWithConditions[2]],
+          [this.squaresWithConditions[4]]
         ]
         break;
       case 7:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[3]},
-          {'condition2': this.squaresWithConditions[4]}
+          [this.squaresWithConditions[3]],
+          [this.squaresWithConditions[4]]
         ]
         break;
       case 9:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[1]},
-          {'condition2': this.squaresWithConditions[8]}
+          [this.squaresWithConditions[1]],
+          [this.squaresWithConditions[8]]
         ]
         break;
       case 10:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[2]},
-          {'condition2': this.squaresWithConditions[8]}
+          [this.squaresWithConditions[2]],
+          [this.squaresWithConditions[8]]
         ]
         break;
       case 11:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[3]},
-          {'condition2': this.squaresWithConditions[8]}
+          [this.squaresWithConditions[3]],
+          [this.squaresWithConditions[8]]
         ]
         break;
       case 13:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[1]},
-          {'condition2': this.squaresWithConditions[12]}
+          [this.squaresWithConditions[1]],
+          [this.squaresWithConditions[12]]
         ]
         break;
       case 14:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[2]},
-          {'condition2': this.squaresWithConditions[12]}
+          [this.squaresWithConditions[2]],
+          [this.squaresWithConditions[12]]
         ]
         break;
       case 15:
         this.conditionsToMatch = [
-          {'condition1': this.squaresWithConditions[3]},
-          {'condition2': this.squaresWithConditions[12]}
+          [this.squaresWithConditions[3]],
+          [this.squaresWithConditions[12]]
         ]
         break;
     }

@@ -89,33 +89,16 @@ export class SquareComponent {
     let clubConditions: any[] = [];
     let countryCondition: any[] = [];
 
-    if (!conditions) {
-      return;
-    }
-    conditions.forEach((condition, index) => {
-      if ('team' in condition[0]) {
-        clubConditions.push(condition[0].team);
-      } else {
-        countryCondition = condition;
-      }
-    });
-    
-
+    conditions.forEach(condition => {
+      console.log(condition)
+      'team' in condition[0] ? clubConditions.push(condition[0].team) : countryCondition = condition});
     const correctClubConditions = clubConditions.filter(club => transferClubs.some(transferClub => transferClub === club?.name));
-
-
-    
-    console.log('correctClubConditions', correctClubConditions)
-
-    if (countryCondition && countryCondition[0].name === playerNationality || !countryCondition) {
+    if ((countryCondition && countryCondition[0]?.name === playerNationality) || countryCondition.length === 0) {
       matchingNation = true;
     }
-
     if (clubConditions.length === correctClubConditions.length) {
       matchingClub = true;
     }
-    console.log(matchingClub);
-    console.log(matchingNation);
     (matchingClub && matchingNation) ? console.log('Well Done') : console.log('Nope');
   }
 
