@@ -92,4 +92,4 @@ export const topFootballingNations = [
   'Norway',
 ];
 
-export const topFootballLeagueIds = [39, 40, 140, 61, 78, 135, 94];
+export const topFootballLeagueIds = [39, 140, 61, 78, 135, 94];

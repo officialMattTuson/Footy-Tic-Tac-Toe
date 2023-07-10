@@ -30,20 +30,12 @@ ngOnInit(): void {
     this.footballService.getTopDivisions().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => this.filterLeagues(data.response),  
       error: (error) => console.error(error),
-      complete: () => this.isLoading = false
     });
   }
 
   getCountries() {
     this.footballService.getCountries().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => this.filterCountries(data.response),
-      error: (error) => console.error(error),
-    });
-  }
-
-  getTeamById() {
-    this.footballService.getTeamStatsById(50).pipe(take(1)).subscribe({
-      next: (response) => console.log(response),
       error: (error) => console.error(error),
     });
   }
@@ -58,15 +50,15 @@ ngOnInit(): void {
       return;
     }
     const filteredLeagues = leagues.filter(league => topFootballLeagueIds.includes(league.league.id))
-    // filteredLeagues.forEach(league => this.getTopDivisionTeams(league));
-    this.getTopDivisionTeams(filteredLeagues[0])
+    filteredLeagues.forEach(league => this.getTopDivisionTeams(league));
   }
 
   getTopDivisionTeams(league: LeagueParent) {
     this.footballService.getTopDivisionTeams(league.league.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
-        this.teams.push(data.response);
-      },  
+        data.response.forEach((response: any) => this.teams.push(response)); 
+        this.teams.length > 100 && (this.isLoading = false);
+      },
       error: (error) => console.error(error),
     })
   }

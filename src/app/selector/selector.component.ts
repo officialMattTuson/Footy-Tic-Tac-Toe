@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Country, Team } from '../models';
+import { Country, Team, TeamInformation } from '../models';
 import { MatSelect } from '@angular/material/select';
 
 @Component({
@@ -14,26 +14,15 @@ export class SelectorComponent implements OnInit {
   selectedCountry?: Country | null;
   teamSelected?: boolean = true;
   showButtons: boolean = false;
+  premierLeagueClubs: Team[] = [];
+  championshipClubs: Team[] = [];
+  germanClubs: Team[] = [];
+  spanishClubs: Team[] = [];
+  italianClubs: Team[] = [];
+  frenchClubs: Team[] = [];
+  portugueseClubs: Team[] = [];
 
   @ViewChild('dropdown') dropdown!: MatSelect;
-
-  countries = [
-    {name: 'Argentina', code: 'AR', flag: 'https://media-1.api-sports.io/flags/ar.svg'},
-    {name: 'Belgium', code: 'BE', flag: 'https://media-2.api-sports.io/flags/be.svg'},
-    {name: 'Brazil', code: 'BR', flag: 'https://media-2.api-sports.io/flags/br.svg'},
-    {name: 'Croatia', code: 'HR', flag: 'https://media-3.api-sports.io/flags/hr.svg'},
-    {name: 'England', code: 'GB', flag: 'https://media-2.api-sports.io/flags/gb.svg'},
-    {name: 'France', code: 'FR', flag: 'https://media-2.api-sports.io/flags/fr.svg'},
-    {name: 'Germany', code: 'DE', flag: 'https://media-1.api-sports.io/flags/de.svg'},
-  ]
-
-  teams = [
-    [
-      {team: {name: 'Manchester City', logo: 'https://media-3.api-sports.io/football/teams/50.png'}},
-      {team: {name: 'Manchester United', logo: 'https://media-3.api-sports.io/football/teams/33.png'}},
-      {team: {name: 'Chelsea', logo: 'https://media-3.api-sports.io/football/teams/49.png'}},
-    ]
-  ]
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,6 +31,18 @@ export class SelectorComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.filterTeams(this.data.teams); 
+  }
+
+  filterTeams(teams: Team[]) {
+    teams.forEach(team => {
+      team.team.country === 'England' && this.premierLeagueClubs.push(team);
+      team.team.country === 'Germany' && this.germanClubs.push(team);
+      team.team.country === 'France' && this.frenchClubs.push(team);
+      team.team.country === 'Spanish' && this.spanishClubs.push(team);
+      team.team.country === 'Portugal' && this.portugueseClubs.push(team);
+      team.team.country === 'Italy' && this.italianClubs.push(team);
+    });
   }
 
   openDropdown() {

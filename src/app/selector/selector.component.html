@@ -34,7 +34,7 @@
         [(ngModel)]="selectedTeam" 
         #dropdown
       >
-        <mat-option *ngFor="let option of data.teams[0]" [value]="option">
+        <mat-option *ngFor="let option of data.teams" [value]="option">
           {{ option.team.name }}   
         </mat-option>
       </mat-select>
