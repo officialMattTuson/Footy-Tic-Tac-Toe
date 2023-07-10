@@ -18,6 +18,7 @@ export class SquareComponent {
   @Input() conditions!: any[];
   @Input() index?: number;
   @Output() userSelectedCondition = new EventEmitter<any>();
+  @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
 
   searchQuery: string ='';
   isSearchBoxVisible: boolean = false;
@@ -44,6 +45,7 @@ export class SquareComponent {
       return;
     }
     if (!isClickedInsideButton) {
+      this.showIncorrectGuessMsg.emit(false);
       this.isSearchBoxVisible = false;
     }
   }
@@ -57,7 +59,12 @@ export class SquareComponent {
     this.footballService.searchPlayer(searchQuery, id).pipe(take(1)).subscribe({
       next: (data) => {
         this.getListOfTransfers(data.response);
-        this.searchedPlayer = data.response[0].player;
+        if (!data.response[0]?.player) {
+          this.showIncorrectGuessMsg.emit(true);
+          this.isSearchBoxVisible = false;
+          return;
+        }
+        this.searchedPlayer = data.response[0]?.player;
         this.playerNationality = (this.searchedPlayer as PlayerBio).nationality;
         this.isSearchBoxVisible = false;
       },
@@ -66,6 +73,10 @@ export class SquareComponent {
   }
 
   getListOfTransfers(player: PlayerInformation[]) {
+    if (!player[0]?.player) {
+      this.showIncorrectGuessMsg.emit(true);
+      return;
+    }
     const searchedPlayer = player[0].player;
     this.footballService.getPlayersListOfTeams(searchedPlayer.id).pipe(take(1)).subscribe({
       next: (result) => {
@@ -106,6 +117,7 @@ export class SquareComponent {
       console.log('Well Done'); 
     } else {
       this.searchedPlayer = null;
+      this.searchQuery = '';
     }
   }
 

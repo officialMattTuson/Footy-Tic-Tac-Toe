@@ -16,6 +16,7 @@ export class BoardComponent implements OnInit {
   xIsNext!: boolean;
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
+  showMsg: boolean = false;
 
 
   constructor() {}
@@ -119,6 +120,10 @@ export class BoardComponent implements OnInit {
     this.squares = Array(16).fill('');
     this.squaresWithConditions = Array(16).fill('');
     this.xIsNext = false;
+  }
+
+  toggleIncorrectMsg(showMsg: boolean) {
+    this.showMsg = showMsg;
   }
 
   get player() {
