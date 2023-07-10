@@ -26,7 +26,7 @@ export class SquareComponent {
   transferInformation: Transfer[] = [];
   transferClubs: string[] = [];
   playerNationality: string = '';
-  searchedPlayer!: PlayerBio;
+  searchedPlayer!: PlayerBio | null;
 
   constructor(
     private footballService: FootballService,
@@ -41,7 +41,6 @@ export class SquareComponent {
     
     if (isSearchFilterClicked) {
       this.isSearchBoxVisible = true;
-      console.log(this.conditions)
       return;
     }
     if (!isClickedInsideButton) {
@@ -49,12 +48,17 @@ export class SquareComponent {
     }
   }
 
-  searchPlayer() {
-    this.footballService.searchPlayer(this.searchQuery, 50).pipe(take(1)).subscribe({
+  setSearchConditions() {
+    const searchQueryId = this.conditions.find(condition => condition[0]?.team)?.[0]?.team?.id;
+    this.searchPlayer(this.searchQuery, searchQueryId);
+  }
+
+  searchPlayer(searchQuery: string, id: number) {
+    this.footballService.searchPlayer(searchQuery, id).pipe(take(1)).subscribe({
       next: (data) => {
         this.getListOfTransfers(data.response);
         this.searchedPlayer = data.response[0].player;
-        this.playerNationality = this.searchedPlayer.nationality;
+        this.playerNationality = (this.searchedPlayer as PlayerBio).nationality;
         this.isSearchBoxVisible = false;
       },
       error: (error) => console.error(error)
@@ -79,7 +83,7 @@ export class SquareComponent {
       TeamsSet.add(transfer.teams.out.name);
     });
     this.transferClubs = Array.from(TeamsSet);
-    this.matchPlayerToConditions(this.playerNationality, this.transferClubs, this.conditions)
+    this.matchPlayerToConditions(this.playerNationality, this.transferClubs, this.conditions);
   }
 
   matchPlayerToConditions(playerNationality: string, transferClubs: string[], conditions: any[]) {
@@ -90,16 +94,19 @@ export class SquareComponent {
     let countryCondition: any[] = [];
 
     conditions.forEach(condition => {
-      console.log(condition)
       'team' in condition[0] ? clubConditions.push(condition[0].team) : countryCondition = condition});
-    const correctClubConditions = clubConditions.filter(club => transferClubs.some(transferClub => transferClub === club?.name));
+    const correctClubConditions = clubConditions.filter(club => transferClubs.some(transferClub => transferClub.includes(club?.name)));
     if ((countryCondition && countryCondition[0]?.name === playerNationality) || countryCondition.length === 0) {
       matchingNation = true;
     }
     if (clubConditions.length === correctClubConditions.length) {
       matchingClub = true;
     }
-    (matchingClub && matchingNation) ? console.log('Well Done') : console.log('Nope');
+    if (matchingClub && matchingNation) {
+      console.log('Well Done'); 
+    } else {
+      this.searchedPlayer = null;
+    }
   }
 
   selectCondition() {

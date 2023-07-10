@@ -20,8 +20,8 @@ export class RandomComponent implements OnInit{
   constructor(private footballService: FootballService) {}
 
 ngOnInit(): void {
-    // this.getTopDivisions();
-    // this.getCountries();
+    this.getTopDivisions();
+    this.getCountries();
     // this.getTeamById();
   }
 
@@ -66,7 +66,6 @@ ngOnInit(): void {
     this.footballService.getTopDivisionTeams(league.league.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.teams.push(data.response);
-        console.log(this.teams);
       },  
       error: (error) => console.error(error),
     })

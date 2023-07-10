@@ -40,7 +40,7 @@
       [class]="'search-input-' + index"
       type="text"
       [(ngModel)]="searchQuery"
-      (keydown.enter)="searchPlayer()"
+      (keydown.enter)="setSearchConditions()"
     />
   </ng-template>
 </ng-template>
