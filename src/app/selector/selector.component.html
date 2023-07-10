@@ -2,12 +2,14 @@
 
 <mat-dialog-content class="flex-dialog-content">
 
-  <div class="selector-buttons">
+  <div
+    *ngIf="!clubButtonClicked"  
+    class="selector-buttons">
     <button
       mat-raised-button
       color="accent"
       id="target-button"
-      (click)="onSelected('club')"
+      (click)="toggleDivisionSelector()"
     >
       Club Team
     </button>
@@ -16,15 +18,31 @@
       mat-raised-button
       color="accent"
       id="target-button"
-      (click)="onSelected('country')"
+      (click)="onCountrySelected()"
     >
       Country
     </button>
   </div>
 
+  <div 
+    *ngIf="clubButtonClicked" 
+    class="selector-buttons"
+  >
+    <ng-container *ngFor="let country of topDivisionCountries">
+      <button
+        mat-raised-button
+        color="accent"
+        id="target-button"
+        (click)="onSelected(country)"
+      >
+        {{ country }}
+      </button>
+    </ng-container>
+  </div>
+
   <ng-container>
     <div 
-      *ngIf="teamSelected; else countryDropdown" 
+      *ngIf="divisionSelectorOpen; else countryDropdown" 
       class="dropdown-wrapper"
       (click)="openDropdown()"
     >
@@ -34,7 +52,7 @@
         [(ngModel)]="selectedTeam" 
         #dropdown
       >
-        <mat-option *ngFor="let option of data.teams" [value]="option">
+        <mat-option *ngFor="let option of divisionTeams" [value]="option">
           {{ option.team.name }}   
         </mat-option>
       </mat-select>
@@ -73,6 +91,15 @@
 </mat-dialog-content>
 <h2 mat-dialog-title>Select A Club team or Nationality</h2>
 <mat-dialog-actions align="end">
+  <button
+    *ngIf="divisionSelectorOpen"
+    mat-button
+    color="accent"
+    (click)="toggleDivisionSelector()"
+  >
+    <mat-icon color="accent">arrow_back</mat-icon>
+    Back
+  </button>
   <button mat-stroked-button color="warn" (click)="onCancel()">Cancel</button>
   <button mat-raised-button color="primary" (click)="onSuccess()">Select</button>
 </mat-dialog-actions>

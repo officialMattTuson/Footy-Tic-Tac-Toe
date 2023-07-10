@@ -116,8 +116,12 @@ export class SquareComponent {
     if (matchingClub && matchingNation) {
       console.log('Well Done'); 
     } else {
-      this.searchedPlayer = null;
-      this.searchQuery = '';
+      setTimeout(() => {
+        this.showIncorrectGuessMsg.emit(true);
+        this.searchedPlayer = null;
+        this.searchQuery = '';
+      }, 4000);
+      
     }
   }
 

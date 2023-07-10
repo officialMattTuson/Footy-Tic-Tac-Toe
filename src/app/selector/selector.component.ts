@@ -14,13 +14,11 @@ export class SelectorComponent implements OnInit {
   selectedCountry?: Country | null;
   teamSelected?: boolean = true;
   showButtons: boolean = false;
-  premierLeagueClubs: Team[] = [];
-  championshipClubs: Team[] = [];
-  germanClubs: Team[] = [];
-  spanishClubs: Team[] = [];
-  italianClubs: Team[] = [];
-  frenchClubs: Team[] = [];
-  portugueseClubs: Team[] = [];
+  clubButtonClicked = false;
+  divisionSelectorOpen = false;
+  divisionTeams: Team[] = [];
+
+  topDivisionCountries: string[] = [];
 
   @ViewChild('dropdown') dropdown!: MatSelect;
 
@@ -35,13 +33,11 @@ export class SelectorComponent implements OnInit {
   }
 
   filterTeams(teams: Team[]) {
-    teams.forEach(team => {
-      team.team.country === 'England' && this.premierLeagueClubs.push(team);
-      team.team.country === 'Germany' && this.germanClubs.push(team);
-      team.team.country === 'France' && this.frenchClubs.push(team);
-      team.team.country === 'Spanish' && this.spanishClubs.push(team);
-      team.team.country === 'Portugal' && this.portugueseClubs.push(team);
-      team.team.country === 'Italy' && this.italianClubs.push(team);
+    const countrySet: Set<string> = new Set();
+    teams.forEach(team => countrySet.add(team.team.country));
+    this.topDivisionCountries = Array.from(countrySet);
+    this.topDivisionCountries.sort((a, b) => {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
     });
   }
 
@@ -49,16 +45,24 @@ export class SelectorComponent implements OnInit {
     this.dropdown.open();
   }
 
-  onSelected(string: string) {
-      if (string === 'club') {
-        this.teamSelected = true;
-        this.selectedCountry = null;
-      } else {
-        this.selectedTeam = null;
-        this.teamSelected = false;
-      }
-      this.dropdown.open();
-      this.showButtons = false;
+  toggleDivisionSelector() {
+    this.clubButtonClicked = !this.clubButtonClicked;
+    this.divisionSelectorOpen = true;
+  }
+  
+  onCountrySelected() {
+    this.selectedTeam = null;
+    this.teamSelected = false;
+    this.dropdown.open();
+    this.showButtons = false;
+  }
+  
+  onSelected(selectedCountry: string) {
+    this.divisionTeams = this.data.teams.filter((team: Team) => team.team.country === selectedCountry);
+    this.divisionTeams.sort((a, b) => {
+      return a.team.name.toLowerCase().localeCompare(b.team.name.toLowerCase());
+    });
+    this.dropdown.open();
   }
 
   onCancel(): void {

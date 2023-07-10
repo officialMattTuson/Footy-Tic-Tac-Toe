@@ -10,7 +10,7 @@
     </button>
   
     <h1 id="message" *ngIf="winner;else currentPlayer">Winner: Player {{ winner }}</h1>
-    <h1 id="message" *ngIf="showMsg">Wrong Player: Guess Again</h1>
+    <h1 id="message" *ngIf="showMsg">That's Incorrect!</h1>
     <ng-template #currentPlayer>
       <h1 id="message">Current Player: {{ player }}</h1>
     </ng-template> 
