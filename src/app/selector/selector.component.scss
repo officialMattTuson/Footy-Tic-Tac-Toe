@@ -54,15 +54,13 @@
     font-size: 20px;
     margin-right: 5px;
   }
+
   .mdc-menu-surface.mat-mdc-select-panel {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    max-height: 500px;
     background-color: lightgreen;
-  }
-
-  .cdk-overlay-pane:not(.mat-mdc-select-panel-above) .mdc-menu-surface.mat-mdc-select-panel {
-    margin: 1.5rem;
   }
 }
 
