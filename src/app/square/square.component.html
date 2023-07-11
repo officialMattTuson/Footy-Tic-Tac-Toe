@@ -1,7 +1,10 @@
 <button
   *ngIf="!isPlayingSquare; else playButtons"
   (click)="selectCondition()"
-  id="condition-square"
+  [ngClass]="{
+    'black-square' : index === 0,
+    'highlight-square' : (!isPlayingSquare && index !== 0)
+  }"
 >
   <ng-container *ngIf="selectedCountry">
     <img
@@ -20,10 +23,12 @@
 </button>
 
 <ng-template #playButtons>
-  <ng-container *ngIf="!isSearchBoxVisible; else searchBox">
+  <ng-container 
+    *ngIf="!isSearchBoxVisible; else searchBox">
     <button 
-      class=search-button-{{index}} 
-      (click)="!searchedPlayer && toggleSearchBox()"
+      [class]="'search-button-' + index"
+      [ngClass]="(isPlayingSquare && !setupComplete) ? 'dark-square' : ''"
+      (click)="(!searchedPlayer && setupComplete) && toggleSearchBox()"
     >
     <ng-container *ngIf="searchedPlayer">
       <img

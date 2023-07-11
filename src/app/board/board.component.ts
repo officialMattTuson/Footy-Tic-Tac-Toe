@@ -16,12 +16,15 @@ export class BoardComponent implements OnInit {
   xIsNext!: boolean;
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
+  startSquaresUnused: number[] = [];
   showMsg: boolean = false;
+  isGameSetupComplete: boolean = false;
 
 
   constructor() {}
 
   ngOnInit(): void {
+    this.startSquaresUnused = this.indexedDisabledSquares.slice();
     this.newGame();
   }
 
@@ -114,6 +117,19 @@ export class BoardComponent implements OnInit {
   handleSelectedCondition(event: any, index: number) {
     const selectedOption = event
     this.squaresWithConditions[index] = selectedOption;
+    this.checkStartConditions();
+  }
+
+  checkStartConditions() {
+    let conditionSquares = this.squaresWithConditions;
+    this.startSquaresUnused.forEach((square, index) => {
+      if (conditionSquares[square]) {
+        this.startSquaresUnused.splice(index, 1);
+      }
+    })
+    if (this.startSquaresUnused.length === 1) {
+      this.isGameSetupComplete = true;
+    }
   }
   
   newGame() {

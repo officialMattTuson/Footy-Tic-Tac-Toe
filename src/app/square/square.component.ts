@@ -17,6 +17,7 @@ export class SquareComponent {
   @Input() countries?: Country[];
   @Input() conditions!: any[];
   @Input() index?: number;
+  @Input() setupComplete?: boolean = false;
   @Output() userSelectedCondition = new EventEmitter<any>();
   @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
 

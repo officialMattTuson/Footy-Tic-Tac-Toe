@@ -30,6 +30,7 @@
         </app-square>
         <ng-template #gameBlock>
           <app-square 
+            [setupComplete]="isGameSetupComplete"
             [index]="i" 
             [conditions]="conditionsToMatch"
             (click)="makeMove(i)"
