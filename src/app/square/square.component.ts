@@ -128,8 +128,8 @@ export class SquareComponent {
   }
 
   selectCondition() {
+    this.emitConditionMessage(false);
     if (this.index === 0) {
-      this.emitConditionMessage(false);
       return;
     }
     if (!this.isPlayingSquare) {
