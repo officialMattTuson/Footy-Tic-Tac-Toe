@@ -30,6 +30,9 @@ export class SelectorComponent implements OnInit {
   
   ngOnInit(): void {
     this.filterTeams(this.data.teams); 
+    if (!this.data.viewCountries) {
+      this.toggleDivisionSelector();
+    }
   }
 
   filterTeams(teams: Team[]) {

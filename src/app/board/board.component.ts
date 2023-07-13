@@ -13,9 +13,13 @@ export class BoardComponent implements OnInit {
   conditionsToMatch! : any[];
   squares: any[] = [];
   squaresWithConditions: any[] = [];
-  xIsNext!: boolean;
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
+  playerOneSquares = [1,2,3];
+  playerTwoSquares = [4,8,12];
+  playerOneCanSelectCountries = true;
+  playerTwoCanSelectCountries = true;
+  playerTwoIsNext!: boolean;
   startSquaresUnused: number[] = [];
   showIncorrectMsg: boolean = false;
   showGameStarterMsg: boolean = false;
@@ -117,7 +121,18 @@ export class BoardComponent implements OnInit {
   handleSelectedCondition(event: any, index: number) {
     const selectedOption = event
     this.squaresWithConditions[index] = selectedOption;
-    this.checkStartConditions();
+    selectedOption.name && this.restrictCountriesToOnePlayer(index);
+    this.checkStartConditions();    
+  }
+
+  restrictCountriesToOnePlayer(index: number) {
+    if (this.playerOneSquares.indexOf(index) > -1) {
+      this.playerTwoCanSelectCountries = false;
+    } else {
+      this.playerOneCanSelectCountries = false;
+      
+    }
+
   }
 
   checkStartConditions() {
@@ -135,7 +150,7 @@ export class BoardComponent implements OnInit {
   newGame() {
     this.squares = Array(16).fill('');
     this.squaresWithConditions = Array(16).fill('');
-    this.xIsNext = false;
+    this.playerTwoIsNext = false;
   }
 
   toggleIncorrectMsg(showMsg: boolean) {
@@ -143,12 +158,11 @@ export class BoardComponent implements OnInit {
   }
 
   toggleGameStarterMsg(showMsg: boolean) {
-    console.log(showMsg)
     this.showGameStarterMsg = showMsg;
   }
 
   get player() {
-    return this.xIsNext ? 'O' : 'X';
+    return this.playerTwoIsNext ? 'O' : 'X';
   }
 
 }

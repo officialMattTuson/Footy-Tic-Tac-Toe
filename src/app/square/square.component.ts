@@ -13,6 +13,7 @@ import { take } from 'rxjs';
 export class SquareComponent {
   @Input() value!: any;
   @Input() isPlayingSquare?: boolean = true;
+  @Input() countrySelectionInvalid?: boolean = true;
   @Input() teams?: Team[];
   @Input() countries?: Country[];
   @Input() conditions!: any[];
@@ -138,7 +139,8 @@ export class SquareComponent {
         panelClass: 'dialog-container',
         data: {
           teams: this.teams,
-          countries: this.countries
+          countries: this.countries,
+          viewCountries: this.countrySelectionInvalid
         }
       })
       dialogRef.afterClosed().subscribe(result => {

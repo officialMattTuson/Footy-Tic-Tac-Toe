@@ -22,6 +22,7 @@
         <app-square 
           *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock"
           [isPlayingSquare]="false"
+          [countrySelectionInvalid]="playerOneSquares.indexOf(i) > -1 ? playerOneCanSelectCountries : playerTwoCanSelectCountries "
           [teams]="teams"
           [value]="squaresWithConditions[i]"
           [countries]="countries"
