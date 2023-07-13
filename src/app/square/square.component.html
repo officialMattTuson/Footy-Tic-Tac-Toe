@@ -24,11 +24,13 @@
 
 <ng-template #playButtons>
   <ng-container 
+    class="button-container"
     *ngIf="!isSearchBoxVisible; else searchBox">
     <button 
       [class]="'search-button-' + index"
       [ngClass]="(isPlayingSquare && !setupComplete) ? 'dark-square' : ''"
-      (click)="(!searchedPlayer && setupComplete) && toggleSearchBox()"
+      [ngStyle]="{'background-color': (isPlayingSquare && !setupComplete) ? '' : '#fec872'}"
+      (click)="(!searchedPlayer && setupComplete) ? toggleSearchBox() : emitConditionMessage(true)"
     >
     <ng-container *ngIf="searchedPlayer">
       <img

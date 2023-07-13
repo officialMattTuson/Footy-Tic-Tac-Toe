@@ -12,16 +12,21 @@
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    width: 25rem;
   }
 }
 
-#message {
+.message {
   font-size: 1.5rem;
   font-weight: 700;
+  margin: auto;
+  text-align: center;
 }
 
 #new-game-button {
   padding: 1.5rem;
+  margin: auto;
+  width: 50%;
   border-radius: 1.5rem;
 
 }

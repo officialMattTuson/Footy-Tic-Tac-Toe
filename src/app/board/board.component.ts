@@ -17,7 +17,8 @@ export class BoardComponent implements OnInit {
   winner: string = '';
   indexedDisabledSquares: number[] = [0,1,2,3,4,8,12];
   startSquaresUnused: number[] = [];
-  showMsg: boolean = false;
+  showIncorrectMsg: boolean = false;
+  showGameStarterMsg: boolean = false;
   isGameSetupComplete: boolean = false;
 
 
@@ -30,7 +31,6 @@ export class BoardComponent implements OnInit {
 
   makeMove(idx: number) {
       this.squaresWithConditions.splice(idx, 1, this.player);
-      this.xIsNext = !this.xIsNext;
     switch (idx) {
       case 5:
         this.conditionsToMatch = [
@@ -139,7 +139,12 @@ export class BoardComponent implements OnInit {
   }
 
   toggleIncorrectMsg(showMsg: boolean) {
-    this.showMsg = showMsg;
+    this.showIncorrectMsg = showMsg;
+  }
+
+  toggleGameStarterMsg(showMsg: boolean) {
+    console.log(showMsg)
+    this.showGameStarterMsg = showMsg;
   }
 
   get player() {

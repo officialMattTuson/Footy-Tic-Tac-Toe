@@ -20,6 +20,7 @@ export class SquareComponent {
   @Input() setupComplete?: boolean = false;
   @Output() userSelectedCondition = new EventEmitter<any>();
   @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
+  @Output() showGameStarterMsg = new EventEmitter<boolean>();
 
   searchQuery: string ='';
   isSearchBoxVisible: boolean = false;
@@ -128,6 +129,7 @@ export class SquareComponent {
 
   selectCondition() {
     if (this.index === 0) {
+      this.emitConditionMessage(false);
       return;
     }
     if (!this.isPlayingSquare) {
@@ -153,6 +155,10 @@ export class SquareComponent {
         this.userSelectedCondition.emit(result);
       })
     }
+  }
+
+  emitConditionMessage(boolean: boolean) {
+    this.showGameStarterMsg.emit(boolean);
   }
 
   toggleSearchBox(): void {

@@ -9,10 +9,11 @@
       Start new Game
     </button>
   
-    <h1 id="message" *ngIf="winner;else currentPlayer">Winner: Player {{ winner }}</h1>
-    <h1 id="message" *ngIf="showMsg">That's Incorrect!</h1>
+    <h1 class="message" *ngIf="winner;else currentPlayer">Winner: Player {{ winner }}</h1>
+    <h1 class="message" *ngIf="showIncorrectMsg">That's Incorrect!</h1>
+    <h1 class="message" *ngIf="showGameStarterMsg">Fill out the Green Condition Squares before starting the game</h1>
     <ng-template #currentPlayer>
-      <h1 id="message">Current Player: {{ player }}</h1>
+      <h1 class="message">Current Player: {{ player }}</h1>
     </ng-template> 
   </div>
 
@@ -26,6 +27,7 @@
           [countries]="countries"
           [index]="i"
           (userSelectedCondition)="(handleSelectedCondition($event, i))"
+          (showGameStarterMsg)="(toggleGameStarterMsg($event))"
           >
         </app-square>
         <ng-template #gameBlock>
@@ -35,6 +37,7 @@
             [conditions]="conditionsToMatch"
             (click)="makeMove(i)"
             (showIncorrectGuessMsg)="(toggleIncorrectMsg($event))"
+            (showGameStarterMsg)="(toggleGameStarterMsg($event))"
           >
           </app-square>
         </ng-template>
