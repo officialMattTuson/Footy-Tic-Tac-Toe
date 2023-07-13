@@ -1,6 +1,18 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, HostListener} from '@angular/core';
-import {Condition, Country, PlayerBio, PlayerInformation, Team, Transfer} from '../models';
-import {MatDialog} from '@angular/material/dialog';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
+import {
+  Country,
+  PlayerBio,
+  PlayerInformation,
+  Team,
+  Transfer,
+} from '../models';
+import { MatDialog } from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
 import { FootballService } from '../football.service';
 import { take } from 'rxjs';
@@ -8,7 +20,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-square',
   templateUrl: './square.component.html',
-  styleUrls: ['./square.component.scss']
+  styleUrls: ['./square.component.scss'],
 })
 export class SquareComponent {
   @Input() value!: any;
@@ -17,14 +29,16 @@ export class SquareComponent {
   @Input() teams?: Team[];
   @Input() countries?: Country[];
   @Input() conditions!: any[];
-  @Input() index?: number;
+  @Input() playingSquares!: any[];
+  @Input() index!: number;
   @Input() setupComplete?: boolean = false;
+  @Input() playerTwoIsNext!: boolean;
   @Output() userSelectedCondition = new EventEmitter<any>();
   @Output() isTurnTaken = new EventEmitter<boolean>();
   @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
   @Output() showGameStarterMsg = new EventEmitter<boolean>();
 
-  searchQuery: string ='';
+  searchQuery: string = '';
   isSearchBoxVisible: boolean = false;
   selectedCountry: Country | null = null;
   selectedTeam: Team | null = null;
@@ -41,9 +55,13 @@ export class SquareComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const isClickedInsideButton = target.classList.contains(`search-button-${this.index}`);
-    const isSearchFilterClicked = target.classList.contains(`search-input-${this.index}`);
-    
+    const isClickedInsideButton = target.classList.contains(
+      `search-button-${this.index}`
+    );
+    const isSearchFilterClicked = target.classList.contains(
+      `search-input-${this.index}`
+    );
+
     if (isSearchFilterClicked) {
       this.isSearchBoxVisible = true;
       return;
@@ -55,77 +73,109 @@ export class SquareComponent {
   }
 
   setSearchConditions() {
-    const searchQueryId = this.conditions.find(condition => condition[0]?.team)?.[0]?.team?.id;
+    const searchQueryId = this.conditions.find(
+      (condition) => condition[0]?.team
+    )?.[0]?.team?.id;
     this.searchPlayer(this.searchQuery, searchQueryId);
   }
 
   searchPlayer(searchQuery: string, id: number) {
-    this.footballService.searchPlayer(searchQuery, id).pipe(take(1)).subscribe({
-      next: (data) => {
-        this.getListOfTransfers(data.response);
-        if (!data.response[0]?.player) {
-          this.showIncorrectGuessMsg.emit(true);
+    this.footballService
+      .searchPlayer(searchQuery, id)
+      .pipe(take(1))
+      .subscribe({
+        next: (data) => {
+          this.getListOfTransfers(data.response);
+          if (!data.response[0]?.player) {
+            this.showIncorrectGuessMsg.emit(true);
+            console.log(true)
+            this.isTurnTaken.emit(true);
+            this.isSearchBoxVisible = false;
+            return;
+          }
+          this.searchedPlayer = data.response[0]?.player;
+          this.playerNationality = (
+            this.searchedPlayer as PlayerBio
+          ).nationality;
           this.isSearchBoxVisible = false;
-          return;
-        }
-        this.searchedPlayer = data.response[0]?.player;
-        this.playerNationality = (this.searchedPlayer as PlayerBio).nationality;
-        this.isSearchBoxVisible = false;
-      },
-      error: (error) => console.error(error)
-    })
+        },
+        error: (error) => {
+          this.isTurnTaken.emit(true);
+          this.showIncorrectGuessMsg.emit(true);
+          console.error(error)
+        },
+      });
   }
 
   getListOfTransfers(player: PlayerInformation[]) {
     if (!player[0]?.player) {
       this.showIncorrectGuessMsg.emit(true);
+      console.log(true, true)
+      this.isTurnTaken.emit(true);
       return;
     }
     const searchedPlayer = player[0].player;
-    this.footballService.getPlayersListOfTeams(searchedPlayer.id).pipe(take(1)).subscribe({
-      next: (result) => {
-        this.transferInformation = result.response[0].transfers;
-        this.collectTeams(this.transferInformation)
-      },
-      error: (error) => console.error(error)
-    })
+    this.footballService
+      .getPlayersListOfTeams(searchedPlayer.id)
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.transferInformation = result.response[0].transfers;
+          this.collectTeams(this.transferInformation);
+        },
+        error: (error) => console.error(error),
+      });
   }
 
   collectTeams(transfers: Transfer[]) {
     const TeamsSet: Set<string> = new Set();
-    transfers.forEach(transfer => {
+    transfers.forEach((transfer) => {
       TeamsSet.add(transfer.teams.in.name);
       TeamsSet.add(transfer.teams.out.name);
     });
     this.transferClubs = Array.from(TeamsSet);
-    this.matchPlayerToConditions(this.playerNationality, this.transferClubs, this.conditions);
+    this.matchPlayerToConditions(
+      this.playerNationality,
+      this.transferClubs,
+      this.conditions
+    );
   }
 
-  matchPlayerToConditions(playerNationality: string, transferClubs: string[], conditions: any[]) {
-
+  matchPlayerToConditions(
+    playerNationality: string,
+    transferClubs: string[],
+    conditions: any[]
+  ) {
     let matchingNation = false;
     let matchingClub = false;
     let clubConditions: any[] = [];
     let countryCondition: any[] = [];
 
-    conditions.forEach(condition => {
-      'team' in condition[0] ? clubConditions.push(condition[0].team) : countryCondition = condition});
-    const correctClubConditions = clubConditions.filter(club => transferClubs.some(transferClub => transferClub.includes(club?.name)));
-    if ((countryCondition && countryCondition[0]?.name === playerNationality) || countryCondition.length === 0) {
+    conditions.forEach((condition) => {
+      'team' in condition[0]
+        ? clubConditions.push(condition[0].team)
+        : (countryCondition = condition);
+    });
+    const correctClubConditions = clubConditions.filter((club) =>
+      transferClubs.some((transferClub) => transferClub.includes(club?.name))
+    );
+    if (
+      (countryCondition && countryCondition[0]?.name === playerNationality) ||
+      countryCondition.length === 0
+    ) {
       matchingNation = true;
     }
     if (clubConditions.length === correctClubConditions.length) {
       matchingClub = true;
     }
     if (matchingClub && matchingNation) {
-      console.log('Well Done'); 
+      console.log('Well Done');
     } else {
       setTimeout(() => {
         this.showIncorrectGuessMsg.emit(true);
         this.searchedPlayer = null;
         this.searchQuery = '';
-      }, 4000);
-      
+      }, 3000);
     }
     this.isTurnTaken.emit(true);
   }
@@ -142,15 +192,15 @@ export class SquareComponent {
         data: {
           teams: this.teams,
           countries: this.countries,
-          viewCountries: this.countrySelectionInvalid
-        }
-      })
-      dialogRef.afterClosed().subscribe(result => {
+          viewCountries: this.countrySelectionInvalid,
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
         if (!result) {
           return;
         }
         if (result?.flag) {
-          this.selectedCountry = result; 
+          this.selectedCountry = result;
           this.selectedTeam = null;
         } else {
           this.selectedTeam = result;
@@ -158,7 +208,7 @@ export class SquareComponent {
         }
         this.isTurnTaken.emit(true);
         this.userSelectedCondition.emit(result);
-      })
+      });
     }
   }
 
@@ -169,4 +219,23 @@ export class SquareComponent {
   toggleSearchBox(): void {
     this.isSearchBoxVisible = !this.isSearchBoxVisible;
   }
+
+  setBackGroundColor(index: number): any {
+    let styleObject = '';
+    const squareValue = this.playingSquares[index];
+    if (this.isPlayingSquare && !this.setupComplete) {
+      return '';
+    } 
+
+    if (this.searchedPlayer) {
+      if (squareValue === 'X') {
+        styleObject ='#ff0000'; 
+      } else if (squareValue === 'O') {
+        styleObject = '#0000ff';
+      } 
+    }
+
+    return styleObject;
+  }
+  
 }

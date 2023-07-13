@@ -29,7 +29,7 @@
     <button 
       [class]="'search-button-' + index"
       [ngClass]="(isPlayingSquare && !setupComplete) ? 'dark-square' : ''"
-      [ngStyle]="{'background-color': (isPlayingSquare && !setupComplete) ? '' : '#fec872'}"
+      [style.background-color]="setBackGroundColor(index)"
       (click)="(!searchedPlayer && setupComplete) ? toggleSearchBox() : emitConditionMessage(true)"
     >
     <ng-container *ngIf="searchedPlayer">

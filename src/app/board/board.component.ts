@@ -167,7 +167,7 @@ export class BoardComponent implements OnInit {
 
   toggleGameStarterMsg(showMsg: boolean) {
     this.showGameStarterMsg = showMsg;
-  }
+  }  
 
   get player() {
     return this.playerTwoIsNext ? 'X' : 'O';

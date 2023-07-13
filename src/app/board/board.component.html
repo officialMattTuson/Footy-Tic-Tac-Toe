@@ -8,42 +8,52 @@
     >
       Start new Game
     </button>
-  
-    <h1 class="message" *ngIf="winner;else currentPlayer">Winner: Player {{ winner }}</h1>
+
+    <h1 class="message" *ngIf="winner; else currentPlayer">
+      Winner: Player {{ winner }}
+    </h1>
     <h1 class="message" *ngIf="showIncorrectMsg">That's Incorrect!</h1>
-    <h1 class="message" *ngIf="showGameStarterMsg">Fill out the Green Condition Squares before starting the game</h1>
+    <h1 class="message" *ngIf="showGameStarterMsg">
+      Fill out the Green Condition Squares before starting the game
+    </h1>
     <ng-template #currentPlayer>
       <h1 class="message">Current Player: {{ player }}</h1>
-    </ng-template> 
+    </ng-template>
   </div>
 
   <main>
     <ng-container *ngFor="let val of squares; let i = index">
-        <app-square 
-          *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock"
-          [isPlayingSquare]="false"
-          [countrySelectionInvalid]="playerOneSquares.indexOf(i) > -1 ? playerOneCanSelectCountries : playerTwoCanSelectCountries "
-          [teams]="teams"
-          [value]="squaresWithConditions[i]"
-          [countries]="countries"
+      <app-square
+        *ngIf="indexedDisabledSquares.indexOf(i) > -1; else gameBlock"
+        [isPlayingSquare]="false"
+        [countrySelectionInvalid]="
+          playerOneSquares.indexOf(i) > -1
+            ? playerOneCanSelectCountries
+            : playerTwoCanSelectCountries
+        "
+        [teams]="teams"
+        [value]="squaresWithConditions[i]"
+        [countries]="countries"
+        [index]="i"
+        (userSelectedCondition)="handleSelectedCondition($event, i)"
+        (showGameStarterMsg)="toggleGameStarterMsg($event)"
+        (isTurnTaken)="togglePlayer()"
+      >
+      </app-square>
+      <ng-template #gameBlock>
+        <app-square
+          [setupComplete]="isGameSetupComplete"
           [index]="i"
-          (userSelectedCondition)="(handleSelectedCondition($event, i))"
-          (showGameStarterMsg)="(toggleGameStarterMsg($event))"
+          [conditions]="conditionsToMatch"
+          [playingSquares]="squaresWithConditions"
+          [playerTwoIsNext]="playerTwoIsNext"
+          (click)="makeMove(i)"
           (isTurnTaken)="togglePlayer()"
-          >
+          (showIncorrectGuessMsg)="toggleIncorrectMsg($event)"
+          (showGameStarterMsg)="toggleGameStarterMsg($event)"
+        >
         </app-square>
-        <ng-template #gameBlock>
-          <app-square 
-            [setupComplete]="isGameSetupComplete"
-            [index]="i" 
-            [conditions]="conditionsToMatch"
-            (click)="makeMove(i)"
-            (isTurnTaken)="togglePlayer()"
-            (showIncorrectGuessMsg)="(toggleIncorrectMsg($event))"
-            (showGameStarterMsg)="(toggleGameStarterMsg($event))"
-          >
-          </app-square>
-        </ng-template>
+      </ng-template>
     </ng-container>
   </main>
 </div>
