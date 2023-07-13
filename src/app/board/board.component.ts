@@ -34,6 +34,9 @@ export class BoardComponent implements OnInit {
   }
 
   makeMove(idx: number) {
+    if (this.showGameStarterMsg) {
+      return;
+    }
       this.squaresWithConditions.splice(idx, 1, this.player);
     switch (idx) {
       case 5:
@@ -144,13 +147,18 @@ export class BoardComponent implements OnInit {
     })
     if (this.startSquaresUnused.length === 1) {
       this.isGameSetupComplete = true;
+      this.showGameStarterMsg = false;
     }
   }
   
   newGame() {
     this.squares = Array(16).fill('');
     this.squaresWithConditions = Array(16).fill('');
-    this.playerTwoIsNext = false;
+    this.playerTwoIsNext = true;
+  }
+
+  togglePlayer() {
+    this.playerTwoIsNext = !this.playerTwoIsNext;
   }
 
   toggleIncorrectMsg(showMsg: boolean) {
@@ -162,7 +170,7 @@ export class BoardComponent implements OnInit {
   }
 
   get player() {
-    return this.playerTwoIsNext ? 'O' : 'X';
+    return this.playerTwoIsNext ? 'X' : 'O';
   }
 
 }

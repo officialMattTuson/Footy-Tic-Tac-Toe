@@ -20,6 +20,7 @@ export class SquareComponent {
   @Input() index?: number;
   @Input() setupComplete?: boolean = false;
   @Output() userSelectedCondition = new EventEmitter<any>();
+  @Output() isTurnTaken = new EventEmitter<boolean>();
   @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
   @Output() showGameStarterMsg = new EventEmitter<boolean>();
 
@@ -126,6 +127,7 @@ export class SquareComponent {
       }, 4000);
       
     }
+    this.isTurnTaken.emit(true);
   }
 
   selectCondition() {
@@ -154,6 +156,7 @@ export class SquareComponent {
           this.selectedTeam = result;
           this.selectedCountry = null;
         }
+        this.isTurnTaken.emit(true);
         this.userSelectedCondition.emit(result);
       })
     }

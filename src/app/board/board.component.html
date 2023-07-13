@@ -29,6 +29,7 @@
           [index]="i"
           (userSelectedCondition)="(handleSelectedCondition($event, i))"
           (showGameStarterMsg)="(toggleGameStarterMsg($event))"
+          (isTurnTaken)="togglePlayer()"
           >
         </app-square>
         <ng-template #gameBlock>
@@ -37,6 +38,7 @@
             [index]="i" 
             [conditions]="conditionsToMatch"
             (click)="makeMove(i)"
+            (isTurnTaken)="togglePlayer()"
             (showIncorrectGuessMsg)="(toggleIncorrectMsg($event))"
             (showGameStarterMsg)="(toggleGameStarterMsg($event))"
           >
