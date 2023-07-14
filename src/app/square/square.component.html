@@ -30,7 +30,7 @@
       [class]="'search-button-' + index"
       [ngClass]="(isPlayingSquare && !setupComplete) ? 'dark-square' : ''"
       [style.background-color]="setBackGroundColor(index)"
-      (click)="(!searchedPlayer && setupComplete) ? toggleSearchBox() : emitConditionMessage(true)"
+      (click)="(setupComplete) ? toggleSearchBox() : emitConditionMessage(true)"
     >
     <ng-container *ngIf="searchedPlayer">
       <img
@@ -52,7 +52,7 @@
       [matAutocomplete]="auto"
     />
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setSearchConditions()">
-      <mat-option *ngFor="let player of filteredPlayersList" [value]="player">
+      <mat-option *ngFor="let player of filteredPlayersList" [value]="replaceCharacters(player)">
         {{ capitalizeNames(player) }}
       </mat-option>
     </mat-autocomplete>

@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Condition, Country, Team} from '../models';
+import {Component, Input, OnInit} from '@angular/core';
+import {Country, Team} from '../models';
 
 @Component({
   selector: 'app-board',
@@ -37,7 +37,9 @@ export class BoardComponent implements OnInit {
     if (this.showGameStarterMsg) {
       return;
     }
+    if (!this.squaresWithConditions[idx]) {
       this.squaresWithConditions.splice(idx, 1, this.player);
+    }
     switch (idx) {
       case 5:
         this.conditionsToMatch = [

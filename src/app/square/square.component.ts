@@ -12,11 +12,12 @@ import {
   PlayerInformation,
   Team,
   Transfer,
+  characterMap,
 } from '../models';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
 import { FootballService } from '../football.service';
-import { debounceTime, take } from 'rxjs';
+import { take } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
@@ -101,6 +102,7 @@ export class SquareComponent {
       .pipe(take(1))
       .subscribe({
         next: (data) => {
+          console.log(data)
           if (!data.response[0]?.player) {
             this.showIncorrectGuessMsg.emit(true);
             this.isTurnTaken.emit(true);
@@ -109,7 +111,6 @@ export class SquareComponent {
           }
           this.getListOfTransfers(data.response);
           this.searchedPlayer = data.response[0]?.player;
-          console.log(this.searchedPlayer)
           this.playerNationality = (
             this.searchedPlayer as PlayerBio
           ).nationality;
@@ -139,6 +140,7 @@ export class SquareComponent {
 
   collectTeams(transfers: Transfer[]) {
     const TeamsSet: Set<string> = new Set();
+    console.log(transfers)
     if (transfers) {
       transfers.forEach((transfer) => {
         TeamsSet.add(transfer.teams.in.name);
@@ -181,7 +183,6 @@ export class SquareComponent {
       matchingClub = true;
     }
     if (matchingClub && matchingNation) {
-      console.log('Well Done');
     } else {
       setTimeout(() => {
         this.showIncorrectGuessMsg.emit(true);
@@ -252,5 +253,13 @@ export class SquareComponent {
 
   capitalizeNames(string: string) {
     return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+
+  replaceCharacters(string: string) {
+
+    const words = string.split(' ');
+    const secondWord = words[words.length - 1];
+    const replacedWord = secondWord?.replace(/[^a-zA-Z0-9]/g, match => (characterMap as any)[match] || match);    words[1] = replacedWord;
+    return replacedWord;
   }
 }
