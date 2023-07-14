@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   HostListener,
+  ViewChild,
 } from '@angular/core';
 import {
   Country,
@@ -15,7 +16,8 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { SelectorComponent } from '../selector/selector.component';
 import { FootballService } from '../football.service';
-import { take } from 'rxjs';
+import { debounceTime, take } from 'rxjs';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-square',
@@ -38,6 +40,8 @@ export class SquareComponent {
   @Output() showIncorrectGuessMsg = new EventEmitter<boolean>();
   @Output() showGameStarterMsg = new EventEmitter<boolean>();
 
+  @ViewChild(MatAutocomplete) autocomplete!: MatAutocomplete;
+    
   searchQuery: string = '';
   isSearchBoxVisible: boolean = false;
   selectedCountry: Country | null = null;
@@ -46,6 +50,7 @@ export class SquareComponent {
   transferClubs: string[] = [];
   playerNationality: string = '';
   searchedPlayer!: PlayerBio | null;
+  filteredPlayersList: string[] = [];
 
   constructor(
     private footballService: FootballService,
@@ -72,10 +77,21 @@ export class SquareComponent {
     }
   }
 
+  filterPlayers(event: any) {
+    const playersArray: string[] = [];
+    const searchQuery = event.target.value;
+    const searchQueryId = this.conditions.find((condition) => condition[0]?.team)?.[0]?.team?.id;
+    this.footballService.getTransferHistory(searchQueryId).pipe(take(1)).subscribe({
+      next: (data) => {
+        data.response.forEach((transfer: any )=> playersArray.push(transfer.player.name.toLowerCase()));
+        this.filteredPlayersList = playersArray.filter((player: string) => player.includes(searchQuery));
+      },
+      error: (error) => console.error(error),
+    })
+  }
+
   setSearchConditions() {
-    const searchQueryId = this.conditions.find(
-      (condition) => condition[0]?.team
-    )?.[0]?.team?.id;
+    const searchQueryId = this.conditions.find((condition) => condition[0]?.team)?.[0]?.team?.id;
     this.searchPlayer(this.searchQuery, searchQueryId);
   }
 
@@ -93,6 +109,7 @@ export class SquareComponent {
           }
           this.getListOfTransfers(data.response);
           this.searchedPlayer = data.response[0]?.player;
+          console.log(this.searchedPlayer)
           this.playerNationality = (
             this.searchedPlayer as PlayerBio
           ).nationality;
@@ -113,7 +130,7 @@ export class SquareComponent {
       .pipe(take(1))
       .subscribe({
         next: (result) => {
-          this.transferInformation = result.response[0].transfers;
+          this.transferInformation = result.response[0]?.transfers;
           this.collectTeams(this.transferInformation);
         },
         error: (error) => console.error(error),
@@ -122,10 +139,12 @@ export class SquareComponent {
 
   collectTeams(transfers: Transfer[]) {
     const TeamsSet: Set<string> = new Set();
-    transfers.forEach((transfer) => {
-      TeamsSet.add(transfer.teams.in.name);
-      TeamsSet.add(transfer.teams.out.name);
-    });
+    if (transfers) {
+      transfers.forEach((transfer) => {
+        TeamsSet.add(transfer.teams.in.name);
+        TeamsSet.add(transfer.teams.out.name);
+      });
+    }
     this.transferClubs = Array.from(TeamsSet);
     this.matchPlayerToConditions(
       this.playerNationality,
@@ -158,7 +177,7 @@ export class SquareComponent {
     ) {
       matchingNation = true;
     }
-    if (clubConditions.length === correctClubConditions.length) {
+    if ((clubConditions.length === correctClubConditions.length) || transferClubs.length === 0) {
       matchingClub = true;
     }
     if (matchingClub && matchingNation) {
@@ -230,5 +249,8 @@ export class SquareComponent {
 
     return styleObject;
   }
-  
+
+  capitalizeNames(string: string) {
+    return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
 }

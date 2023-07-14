@@ -48,6 +48,13 @@
       type="text"
       [(ngModel)]="searchQuery"
       (keydown.enter)="setSearchConditions()"
+      (input)="filterPlayers($event)"
+      [matAutocomplete]="auto"
     />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setSearchConditions()">
+      <mat-option *ngFor="let player of filteredPlayersList" [value]="player">
+        {{ capitalizeNames(player) }}
+      </mat-option>
+    </mat-autocomplete>
   </ng-template>
 </ng-template>

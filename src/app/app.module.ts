@@ -26,6 +26,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {SelectorComponent} from './selector/selector.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 
 
@@ -57,7 +58,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatProgressBarModule,
     MatSelectModule,
     MatSidenavModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule
 
   ],
   providers: [],

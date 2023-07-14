@@ -44,4 +44,8 @@ export class FootballService {
   getPlayersListOfTeams(id: number) {
     return this.http.get<any>(`${this.apiUrl}/transfers?player=${id}`, {'headers': this.headers} );
   }
+
+  getTransferHistory(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/transfers?team=${id}`, {'headers': this.headers} );
+  }
 }
