@@ -85,14 +85,13 @@ export class SquareComponent {
       .pipe(take(1))
       .subscribe({
         next: (data) => {
-          this.getListOfTransfers(data.response);
           if (!data.response[0]?.player) {
             this.showIncorrectGuessMsg.emit(true);
-            console.log(true)
             this.isTurnTaken.emit(true);
             this.isSearchBoxVisible = false;
             return;
           }
+          this.getListOfTransfers(data.response);
           this.searchedPlayer = data.response[0]?.player;
           this.playerNationality = (
             this.searchedPlayer as PlayerBio
@@ -108,12 +107,6 @@ export class SquareComponent {
   }
 
   getListOfTransfers(player: PlayerInformation[]) {
-    if (!player[0]?.player) {
-      this.showIncorrectGuessMsg.emit(true);
-      console.log(true, true)
-      this.isTurnTaken.emit(true);
-      return;
-    }
     const searchedPlayer = player[0].player;
     this.footballService
       .getPlayersListOfTeams(searchedPlayer.id)
