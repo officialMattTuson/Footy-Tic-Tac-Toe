@@ -27,6 +27,7 @@
   <div 
     *ngIf="clubButtonClicked" 
     class="selector-buttons"
+    [style.marginBlockStart]="marginBlockStart"
   >
     <ng-container *ngFor="let country of topDivisionCountries">
       <button
@@ -41,8 +42,9 @@
   </div>
 
   <ng-container>
+    
     <div 
-      *ngIf="divisionSelectorOpen; else countryDropdown" 
+      *ngIf="divisionSelectorOpen" 
       class="dropdown-wrapper"
       (click)="openDropdown()"
     >
@@ -53,49 +55,84 @@
         #dropdown
       >
         <mat-option *ngFor="let option of divisionTeams" [value]="option">
-          {{ option.team.name }}   
+          {{ option.name }}   
         </mat-option>
       </mat-select>
       <div *ngIf="selectedTeam" class="image-container">
-        <img [src]="selectedTeam.team.logo" alt="Selected Team Logo">
+        <img [src]="selectedTeam?.logo" alt="Selected Team Logo">
       </div>
     </div>
     
-    <ng-template #countryDropdown>
-      <div 
-        class="dropdown-wrapper"
-        [ngClass]="{'dropdown-hidden': showButtons}"
-        (click)="openDropdown()"
+    <div 
+      *ngIf="countrySelectorOpen"
+      class="dropdown-wrapper"
+      [ngClass]="{'dropdown-hidden': showButtons}"
+      (click)="openDropdown()"
+    >
+      <h2 class="dropdown-label">Country</h2>
+      <mat-select 
+        class="custom-select" 
+        [(ngModel)]="selectedCountry"
+        #dropdown
       >
-        <h2 class="dropdown-label">Country</h2>
-        <mat-select 
-          class="custom-select" 
-          [(ngModel)]="selectedCountry"
-          #dropdown
-        >
-          <mat-option *ngFor="let option of data.countries" [value]="option">
-            {{ option.name }}   
-          </mat-option>
-        </mat-select>
-        <div *ngIf="selectedCountry" class="image-container">
-          <img
-          width="175px"
-          [src]="selectedCountry.flag" 
-          alt="Selected Country Flag">
-        </div>
+        <mat-option *ngFor="let option of data.countries" [value]="option">
+          {{ option.name }}   
+        </mat-option>
+      </mat-select>
+      <div *ngIf="selectedCountry" class="image-container">
+        <img
+        width="175px"
+        [src]="selectedCountry.flag" 
+        alt="Selected Country Flag">
       </div>
-    </ng-template>
+    </div>
+
+    <div 
+    *ngIf="!countrySelectorOpen && !divisionSelectorOpen"
+    class="dropdown-wrapper"
+    [ngClass]="{'dropdown-hidden': showButtons}"
+    (click)="openDropdown()"
+  >
+    <h2 class="dropdown-label">Choose an Team or Country</h2>
+    <mat-select 
+      class="custom-select" 
+      [(ngModel)]="selectedCountry"
+      #dropdown
+    >
+      <mat-option *ngFor="let option of fullConditionsList" [value]="option">
+        {{ option.name }}   
+      </mat-option>
+    </mat-select>
+    <div *ngIf="selectedCountry || selectedTeam" class="image-container">
+      <img
+      width="175px"
+      [src]="selectedCountry ? selectedCountry?.flag : selectedTeam?.logo" 
+      alt="Selected Option">
+    </div>
+  </div>
 
   </ng-container>
   
 </mat-dialog-content>
-<h2 mat-dialog-title>Select A Club team or Nationality</h2>
+<input
+  class="search-box"
+  type="text"
+  [(ngModel)]="searchQuery"
+  (keydown.enter)="getSelectedCondition()"
+  (input)="filterConditionsForSearchFilter($event)"
+  [matAutocomplete]="auto"
+/>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="getSelectedCondition()">
+  <mat-option *ngFor="let condition of filteredConditionsList" [value]="condition.name">
+    {{ condition.name }}
+  </mat-option>
+</mat-autocomplete>
 <mat-dialog-actions align="end">
   <button
     *ngIf="divisionSelectorOpen"
     mat-button
     color="accent"
-    (click)="toggleDivisionSelector()"
+    (click)="resetSelector()"
   >
     <mat-icon color="accent">arrow_back</mat-icon>
     Back

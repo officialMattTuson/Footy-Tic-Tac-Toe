@@ -1,11 +1,13 @@
-<div *ngIf="isLoading; else mainBlock">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>
-
-<ng-template #mainBlock>
-  <app-board 
+<div class="container">
+  <div *ngIf="isLoading; else mainBlock">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  
+  <ng-template #mainBlock>
+    <app-board 
     [teams]="teams"
     [countries]="countries"
-  >
+    >
   </app-board>
 </ng-template>
+</div>

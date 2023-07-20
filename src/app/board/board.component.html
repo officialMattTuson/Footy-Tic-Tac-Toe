@@ -4,7 +4,7 @@
       mat-raised-button
       color="accent"
       id="new-game-button"
-      (click)="newGame()"
+      (click)="resetBoard()"
     >
       Start new Game
     </button>
@@ -49,7 +49,7 @@
           [playerTwoIsNext]="playerTwoIsNext"
           (click)="makeMove(i)"
           (isTurnTaken)="togglePlayer()"
-          (showIncorrectGuessMsg)="toggleIncorrectMsg($event)"
+          (showIncorrectGuessMsg)="toggleIncorrectMsg($event, i)"
           (showGameStarterMsg)="toggleGameStarterMsg($event)"
         >
         </app-square>

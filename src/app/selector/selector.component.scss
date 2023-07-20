@@ -35,7 +35,7 @@
 }
 
 .selector-buttons {
-  height: 25    0px;
+  margin-block-start: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,4 +66,12 @@
 
 .dropdown-label {
   text-align: center;
+}
+
+input {
+  margin: 10rem 0 1rem 2rem;
+  padding-block: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }

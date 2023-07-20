@@ -11,6 +11,7 @@ import {
   PlayerBio,
   PlayerInformation,
   Team,
+  TeamInformation,
   Transfer,
   characterMap,
 } from '../models';
@@ -46,7 +47,7 @@ export class SquareComponent {
   searchQuery: string = '';
   isSearchBoxVisible: boolean = false;
   selectedCountry: Country | null = null;
-  selectedTeam: Team | null = null;
+  selectedTeam: TeamInformation | null = null;
   transferInformation: Transfer[] = [];
   transferClubs: string[] = [];
   playerNationality: string = '';
@@ -140,7 +141,6 @@ export class SquareComponent {
 
   collectTeams(transfers: Transfer[]) {
     const TeamsSet: Set<string> = new Set();
-    console.log(transfers)
     if (transfers) {
       transfers.forEach((transfer) => {
         TeamsSet.add(transfer.teams.in.name);
@@ -259,7 +259,10 @@ export class SquareComponent {
 
     const words = string.split(' ');
     const secondWord = words[words.length - 1];
-    const replacedWord = secondWord?.replace(/[^a-zA-Z0-9]/g, match => (characterMap as any)[match] || match);    words[1] = replacedWord;
+    let replacedWord = secondWord?.replace(/[^a-zA-Z0-9]/g, match => (characterMap as any)[match] || match);    words[1] = replacedWord;
+    if (replacedWord.includes('-')) {
+      replacedWord = string;
+    }
     return replacedWord;
   }
 }

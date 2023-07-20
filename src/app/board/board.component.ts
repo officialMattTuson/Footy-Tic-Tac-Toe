@@ -24,6 +24,7 @@ export class BoardComponent implements OnInit {
   showIncorrectMsg: boolean = false;
   showGameStarterMsg: boolean = false;
   isGameSetupComplete: boolean = false;
+  clearSquare: boolean = false;
 
 
   constructor() {}
@@ -96,7 +97,6 @@ export class BoardComponent implements OnInit {
         ]
         break;
     }
-    this.winner = this.calculateWinner();
   }
 
   calculateWinner() {
@@ -113,11 +113,11 @@ export class BoardComponent implements OnInit {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (
-        this.squares[a] &&
-        this.squares[a] === this.squares[b] &&
-        this.squares[a] === this.squares[c]
+        this.squaresWithConditions[a] &&
+        this.squaresWithConditions[a] === this.squaresWithConditions[b] &&
+        this.squaresWithConditions[a] === this.squaresWithConditions[c]
       ) {
-        return this.squares[a];
+        return this.squaresWithConditions[a];
       }
     }
     return null;
@@ -135,9 +135,7 @@ export class BoardComponent implements OnInit {
       this.playerTwoCanSelectCountries = false;
     } else {
       this.playerOneCanSelectCountries = false;
-      
     }
-
   }
 
   checkStartConditions() {
@@ -159,11 +157,20 @@ export class BoardComponent implements OnInit {
     this.playerTwoIsNext = true;
   }
 
+  resetBoard() {
+    window.location.reload();
+    this.newGame();
+  }
+
   togglePlayer() {
+    this.winner = this.calculateWinner();
     this.playerTwoIsNext = !this.playerTwoIsNext;
   }
 
-  toggleIncorrectMsg(showMsg: boolean) {
+  toggleIncorrectMsg(showMsg: boolean, index: number) {
+    if (showMsg === true) {
+      this.squaresWithConditions[index] = null;
+    }
     this.showIncorrectMsg = showMsg;
   }
 
