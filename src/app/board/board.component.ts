@@ -169,7 +169,6 @@ export class BoardComponent implements OnInit {
 
   togglePlayer() {
     this.winner = this.calculateWinner();
-    console.log(this.winner)
     if (this.winner === 'Player One') {
       return this.scoreService.playerOneWins();
     }
