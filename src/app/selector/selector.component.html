@@ -106,7 +106,7 @@
     <div *ngIf="selectedCountry || selectedTeam" class="image-container">
       <img
       width="175px"
-      [src]="selectedCountry ? selectedCountry?.flag : selectedTeam?.logo" 
+      [src]="selectedCountry ? selectedCountry.flag : selectedTeam?.logo" 
       alt="Selected Option">
     </div>
   </div>

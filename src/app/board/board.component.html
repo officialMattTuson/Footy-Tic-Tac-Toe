@@ -1,4 +1,8 @@
 <div class="board-container">
+  <div class="message">
+    <h2>Player One Score: {{ playerOneScore$ | async }}</h2>
+    <h2>Player Two Score: {{ playerTwoScore$ | async }}</h2>
+  </div>
   <div class="board-prompts">
     <button
       mat-raised-button
@@ -10,7 +14,7 @@
     </button>
 
     <h1 class="message" *ngIf="winner; else currentPlayer">
-      Winner: Player {{ winner }}
+      Winner: {{ winner }}
     </h1>
     <h1 class="message" *ngIf="showIncorrectMsg">That's Incorrect!</h1>
     <h1 class="message" *ngIf="showGameStarterMsg">

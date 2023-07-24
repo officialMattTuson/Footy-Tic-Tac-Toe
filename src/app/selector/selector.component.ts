@@ -46,7 +46,7 @@ export class SelectorComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.filterTeams(this.data.teams); 
+    this.filterTeams(this.data.teams);
     this.teams = this.data.teams.map((team: Team) => team.team);
     this.teams.sort((a, b) => {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());

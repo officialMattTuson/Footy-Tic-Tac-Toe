@@ -82,7 +82,7 @@ export class SquareComponent {
   filterPlayers(event: any) {
     const playersArray: string[] = [];
     const searchQuery = event.target.value;
-    const searchQueryId = this.conditions.find((condition) => condition[0]?.team)?.[0]?.team?.id;
+    const searchQueryId = this.conditions.find((condition) => condition[0]?.id)[0].id;
     this.footballService.getTransferHistory(searchQueryId).pipe(take(1)).subscribe({
       next: (data) => {
         data.response.forEach((transfer: any )=> playersArray.push(transfer.player.name.toLowerCase()));
@@ -93,7 +93,7 @@ export class SquareComponent {
   }
 
   setSearchConditions() {
-    const searchQueryId = this.conditions.find((condition) => condition[0]?.team)?.[0]?.team?.id;
+    const searchQueryId = this.conditions.find((condition) => condition[0]?.id)[0].id;
     this.searchPlayer(this.searchQuery, searchQueryId);
   }
 
@@ -103,8 +103,7 @@ export class SquareComponent {
       .pipe(take(1))
       .subscribe({
         next: (data) => {
-          console.log(data)
-          if (!data.response[0]?.player) {
+            if (!data.response[0]?.player) {
             this.showIncorrectGuessMsg.emit(true);
             this.isTurnTaken.emit(true);
             this.isSearchBoxVisible = false;
@@ -148,6 +147,7 @@ export class SquareComponent {
       });
     }
     this.transferClubs = Array.from(TeamsSet);
+    console.log(this.transferClubs)
     this.matchPlayerToConditions(
       this.playerNationality,
       this.transferClubs,
@@ -166,8 +166,8 @@ export class SquareComponent {
     let countryCondition: any[] = [];
 
     conditions.forEach((condition) => {
-      'team' in condition[0]
-        ? clubConditions.push(condition[0].team)
+      'logo' in condition[0]
+        ? clubConditions.push(condition[0])
         : (countryCondition = condition);
     });
     const correctClubConditions = clubConditions.filter((club) =>

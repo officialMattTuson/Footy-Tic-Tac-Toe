@@ -74,6 +74,11 @@ export interface Condition {
   condition2: any;
 }
 
+export interface Score {
+  playerOne: number;
+  playerTwo: number;
+}
+
 export const topFootballingNations = [
   'Argentina',
   'France',

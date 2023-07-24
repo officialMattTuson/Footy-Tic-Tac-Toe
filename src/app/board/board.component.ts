@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Country, Team} from '../models';
+import {Country, Score, Team} from '../models';
+import { PlayerScoreService } from '../player-score.service';
 
 @Component({
   selector: 'app-board',
@@ -10,6 +11,9 @@ export class BoardComponent implements OnInit {
 
   @Input() teams: Team[] = [];
   @Input() countries: Country[] = [];
+  playerOneScore$ = this.scoreService.playerOneScore$;
+  playerTwoScore$ = this.scoreService.playerTwoScore$;
+  score!: Score;
   conditionsToMatch! : any[];
   squares: any[] = [];
   squaresWithConditions: any[] = [];
@@ -27,7 +31,7 @@ export class BoardComponent implements OnInit {
   clearSquare: boolean = false;
 
 
-  constructor() {}
+  constructor(private scoreService: PlayerScoreService) {}
 
   ngOnInit(): void {
     this.startSquaresUnused = this.indexedDisabledSquares.slice();
@@ -126,7 +130,8 @@ export class BoardComponent implements OnInit {
   handleSelectedCondition(event: any, index: number) {
     const selectedOption = event
     this.squaresWithConditions[index] = selectedOption;
-    selectedOption.name && this.restrictCountriesToOnePlayer(index);
+    const foundCountry = this.countries.find(country => country.name === selectedOption.name)
+    foundCountry && this.restrictCountriesToOnePlayer(index);
     this.checkStartConditions();    
   }
 
@@ -164,7 +169,14 @@ export class BoardComponent implements OnInit {
 
   togglePlayer() {
     this.winner = this.calculateWinner();
-    this.playerTwoIsNext = !this.playerTwoIsNext;
+    console.log(this.winner)
+    if (this.winner === 'Player One') {
+      return this.scoreService.playerOneWins();
+    }
+    if (this.winner === 'Player Two') {
+      return  this.scoreService.playerTwoWins;
+    }
+    this.playerTwoIsNext = !this.playerTwoIsNext; 
   }
 
   toggleIncorrectMsg(showMsg: boolean, index: number) {
@@ -179,7 +191,7 @@ export class BoardComponent implements OnInit {
   }  
 
   get player() {
-    return this.playerTwoIsNext ? 'X' : 'O';
+    return this.playerTwoIsNext ? 'Player One' : 'Player Two';
   }
 
 }
