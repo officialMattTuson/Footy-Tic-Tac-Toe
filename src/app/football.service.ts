@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FootballService {
 
-  private apiKey = '0fb663d10f25b431747cfffcf2c0af01';
+  private apiKey = environment.apiKey;
   private apiUrl = 'https://v3.football.api-sports.io';
   private hostUrl = 'v3.football.api-sports.io';
 
