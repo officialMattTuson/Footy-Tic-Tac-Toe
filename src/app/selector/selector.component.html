@@ -54,7 +54,7 @@
         [(ngModel)]="selectedTeam" 
         #dropdown
       >
-        <mat-option *ngFor="let option of divisionTeams" [value]="option">
+        <mat-option *ngFor="let option of teamsByDivision" [value]="option">
           {{ option.name }}   
         </mat-option>
       </mat-select>
@@ -99,7 +99,7 @@
       [(ngModel)]="selectedCountry"
       #dropdown
     >
-      <mat-option *ngFor="let option of fullConditionsList" [value]="option">
+      <mat-option *ngFor="let option of conditions" [value]="option">
         {{ option.name }}   
       </mat-option>
     </mat-select>
